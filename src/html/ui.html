@@ -1,32 +1,38 @@
 <div id="wp-ui">
 
-  <input id="collapsible-toggle" class="toggle" type="checkbox" >
+  <input id="collapsible-toggle" class="toggle" type="checkbox" style="display: none;">
   <label id="label-toggle" for="collapsible-toggle">WP</label>
 
-  <div id="wp-config" >
-    <div id="wp-form-container">
-      <div id="wp-input-container">
-        <input type="text" placeholder="server URL" id="wp-url-input" name="wp-urlInput">
-        <label for="wp-url-input">input URL of backend server</label>
-      </div>
-      <button id="wp-set-url-button" type="button">Set URL</button>
-    </div>
+  <form id="wp-config-form">
 
-    <div id="wp-form-container">
-      <div id="wp-input-container">
-        <input type="text" placeholder="server Token" id="wp-token-input" name="wp-urlInput">
-        <label for="wp-token-input">input Token of backend server</label>
-      </div>
-      <button id="wp-set-token-button" type="button">Set Token</button>
-    </div>
+    <table>
+      <tr>
+        <td colspan="2">
+          <input id="wp-url-input" type="text" placeholder="Input server URL" required>
+          <label for="wp-url-input">The server you want to connect to</label>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input id="wp-token-input" type="text" placeholder="Input server token" required>
+          <label for="wp-token-input">The token for the specified server</label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input id="wp-room-name-input" type="text" placeholder="Room name">
+          <label for="wp-room-name-input">Room name - leave blank to create one</label>
+        </td>
+        <td>
+          <input id="wp-room-password-input" type="text" placeholder="Room password">
+          <label for="wp-room-password-input">Password for room</label>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2"><button id="wp-submit-button">Join / Create Room</button></td>
+      </tr>
+    </table>
 
-    <div id="wp-form-container">
-      <div id="wp-input-container">
-        <input id="wp-room-input" type="text" placeholder="room name" name="wp-roomInput">
-        <label for="wp-room-input">leave blank to create room</label>
-      </div>
-      <button id="wp-join-create-button" type="button">Join/Create room</button>
-    </div>
-  </div>
+  </form>
 
 </div>

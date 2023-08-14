@@ -1,5 +1,5 @@
 @element_height: 20px;
-@background_color: #696969;
+@background_color: #b65200;
 @element_color: white;
 @transition_duration: 0.2s;
 
@@ -12,11 +12,7 @@
   margin: 0;
   padding: 0;
   font-size: 14px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
-}
-
-#wp-ui div {
-  background-color: transparent;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #wp-ui {
@@ -31,71 +27,6 @@
   border: 0;
 }
 
-#collapsible-toggle {
-  display: none !important;
-}
-
-.wp-pixeled,
-#wp-ui,
-#wp-config button,
-#wp-config input,
-#label-toggle{
-  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.75);
-}
-
-#wp-config {
-  max-height: 0px;
-  max-width: 0px;
-  overflow: hidden;
-  transition: max-height @transition_duration ease-in-out, max-width @transition_duration ease-in-out;
-}
-
-#wp-ui button {
-  height: @element_height;
-  flex: 1;
-  background-color: @element_color;
-  margin-left: 10px;
-  padding-left: 5px;
-  padding-right: 5px;
-  text-align: center;
-}
-
-#wp-ui button:hover,
-#label-toggle:hover {
-  background-color: #dddddd;
-}
-
-#label-toggle:active,
-#wp-config button:active,
-#wp-config input:focus {
-  box-shadow: 0px 0px 0px;
-  transform: translate(3px, 3px);
-  outline: none;
-}
-
-#wp-config input {
-  display: block;
-  height: @element_height;
-  background-color: @element_color;
-  border: 0;
-  padding-left: 5px;
-  margin-bottom: 5px;
-}
-
-#wp-config label {
-  background-color: transparent;
-  margin-right: 1px;
-  font-size: 10px;
-  color: @element_color;
-  float: right;
-}
-
-#wp-form-container {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
 #label-toggle {
   float: right;
   margin-bottom: 5px;
@@ -107,7 +38,82 @@
   cursor: pointer;
 }
 
-.toggle:checked + #label-toggle + #wp-config {
+.wp-pixeled,
+#wp-ui,
+#wp-config-form button,
+#wp-config-form input,
+#label-toggle {
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.75);
+}
+
+#wp-config-form {
+  margin: 0 auto;
+  max-height: 0px;
+  max-width: 0px;
+  overflow: hidden;
+  transition: max-height @transition_duration ease-in-out, max-width @transition_duration ease-in-out;
+}
+
+#wp-ui button {
+  height: @element_height;
+  background-color: @element_color;
+  flex: 1;
+  margin: 5px;
+  padding-left: 2px;
+  padding-right: 2px;
+  text-align: center;
+}
+
+#wp-ui button:hover,
+#label-toggle:hover {
+  background-color: #dddddd;
+}
+
+#label-toggle:active,
+#wp-config-form:valid button:active,
+#wp-config-form input:focus {
+  box-shadow: 0px 0px 0px;
+  transform: translate(3px, 3px);
+  outline: none;
+}
+
+#wp-config-form table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#wp-config-form td {
+  padding: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+#wp-config-form input {
+  width: 100%;
+  box-sizing: border-box;
+  height: @element_height;
+  background-color: @element_color;
+  border: 0;
+  padding-left: 5px;
+  margin-right: 5px;
+}
+
+#wp-config-form button {
+  width: 100%;
+  margin: 0;
+  margin-bottom: 5px;
+  border: none;
+}
+
+#wp-config-form label {
+  font-size: 10px;
+  color: white;
+}
+
+
+//config visibility switch
+.toggle:checked+#label-toggle+#wp-config-form {
   max-width: 354px;
-  max-height: 143px;
+  max-height: 169px;
+  margin-right: 35px;
 }
