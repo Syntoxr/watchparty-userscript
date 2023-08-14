@@ -1,23 +1,31 @@
 <div id="wp-ui">
 
-  <input id="collapsible-toggle" class="toggle" type="checkbox">
-  <label for="collapsible-toggle" class="lbl-toggle">WP</label>
+  <input id="collapsible-toggle" class="toggle" type="checkbox" >
+  <label id="label-toggle" for="collapsible-toggle">WP</label>
 
-  <div id="wp-config" class="wp-hidden">
+  <div id="wp-config" >
     <div id="wp-form-container">
       <div id="wp-input-container">
-        <input type="text" placeholder="server URL" id="wp-urlInput" name="wp-urlInput">
-        <label for="wp-urlInput">input URL of backend server</label>
+        <input type="text" placeholder="server URL" id="wp-url-input" name="wp-urlInput">
+        <label for="wp-url-input">input URL of backend server</label>
       </div>
-      <button id="wp-setButton" type="button">Set URL</button>
+      <button id="wp-set-url-button" type="button">Set URL</button>
     </div>
 
     <div id="wp-form-container">
       <div id="wp-input-container">
-        <input id="wp-roomInput" type="text" placeholder="room name" name="wp-roomInput">
-        <label for="wp-roomInput">leave blank to create room</label>
+        <input type="text" placeholder="server Token" id="wp-token-input" name="wp-urlInput">
+        <label for="wp-token-input">input Token of backend server</label>
       </div>
-      <button id="wp-joinCreateButton" type="button">Join/Create room</button>
+      <button id="wp-set-token-button" type="button">Set Token</button>
+    </div>
+
+    <div id="wp-form-container">
+      <div id="wp-input-container">
+        <input id="wp-room-input" type="text" placeholder="room name" name="wp-roomInput">
+        <label for="wp-room-input">leave blank to create room</label>
+      </div>
+      <button id="wp-join-create-button" type="button">Join/Create room</button>
     </div>
   </div>
 
