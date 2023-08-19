@@ -48,6 +48,7 @@
     "webpack-sources": "^3.2.3"
   },
   "dependencies": {
-    "remove": "^0.1.5"
+    "remove": "^0.1.5",
+    "socket.io-client": "^4.7.2"
   }
 }
