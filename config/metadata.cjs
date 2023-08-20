@@ -15,9 +15,9 @@ module.exports = {
   author: author,
   source: repository.url,
   // 'license': 'MIT',
-  match: ["*://www.example.com/", "*://example.com/*", "file:///home/milan/Downloads/Example%20Domain.html"],
+  match: ["https://www.netflix.com/watch/*","*://www.example.com/", "*://example.com/*", "file:///home/milan/Downloads/Example%20Domain.html"],
   require: [],
-  grant: [],
+  grant: ["GM.setValue", "GM.getValue"],
   connect: [],
   "run-at": "document-end",
 };

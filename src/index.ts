@@ -1,5 +1,6 @@
 import "./style/main.less";
 import "./ui"
+import "./socket"
 
 
 async function main() {
