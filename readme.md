@@ -1,10 +1,16 @@
-# This is a project help you build userscript with webpack
+# watchparty-userscript
 
-Just [use this git repo as a template](https://github.com/Trim21/webpack-userscript-template/generate).
+# STILL WORK IN PROGRESS!!
 
-[中文说明](./readme.cn.md)
+This is the user interface part of the watchparty project.
+The backend can be found [here](https://github.com/Syntoxr/watchparty-server)
 
-## dev
+## usage
+
+- To run this script, you need to install an userscript manager like [Violentmonkey](https://violentmonkey.github.io/get-it/) (preferred) or [Tampermonkey](https://www.tampermonkey.net/).
+- After that, open this [TODO] file. The userscript manager will automatically notice that you opened an userscript and asks if you want to install it.
+
+## development
 
 1. Allow Tampermonkey's access to local file URIs [tampermonkey/faq](https://tampermonkey.net/faq.php?ext=dhdg#Q204)
 2. install deps with `npm i` or `npm ci`.
