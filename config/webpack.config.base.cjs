@@ -34,6 +34,10 @@ const webpackConfig = {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
       },
+      {
+        test: /\.html$/,
+        use: "html-loader"
+      }
     ],
   },
   plugins: process.env.npm_config_report ? [new BundleAnalyzerPlugin()] : [],
