@@ -1,5 +1,8 @@
 name: deploy-preview
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:
