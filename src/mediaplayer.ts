@@ -52,6 +52,7 @@ async function getNetflix() {
   return mediaPlayer;
 }
 
+//find, wrap and return mediaplayer for current website
 export async function getMediaPlayer(): Promise<MediaPlayer> {
   const host = window.location.host;
   switch (host) {
@@ -59,6 +60,8 @@ export async function getMediaPlayer(): Promise<MediaPlayer> {
       return getNetflix();
 
     default:
-      break;
+      return new Promise((resolve, reject) => {
+        reject("Could not match any mediaplayer wrapper for current Website");
+      });
   }
 }

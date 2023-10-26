@@ -71,7 +71,12 @@ export async function initSocket(url: string, token: string): Promise<void> {
       console.log("Socket connected as: " + socket.id);
       socketState = SocketStates.connected;
 
-      const mediaplayer = await getMediaPlayer();
+      const mediaplayer = await getMediaPlayer().catch((error) => {
+        socket.close();
+        throw error;
+      });
+
+      //in case the last action was triggered remotely
       let ignoreNextAction = false;
 
       /**
