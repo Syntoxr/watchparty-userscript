@@ -11,6 +11,8 @@ module.exports = {
     en: "watchparty",
   },
   namespace: "https://github.com/Syntoxr",
+  downloadURL: "https://github.com/Syntoxr/watchparty-userscript/raw/gh-pages/watchparty.prod.user.js",
+  supportURL: "https://github.com/Syntoxr/watchparty-userscript",
   version: version,
   author: author,
   source: repository.url,
