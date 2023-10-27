@@ -24,7 +24,7 @@ enum SocketActions {
   setTime = "SET_TIME",
 }
 
-export let socket: Socket;
+let socket: Socket;
 
 /**
  * @param name
@@ -37,7 +37,7 @@ export function joinRoom(name: string, password: string): Promise<any> {
     console.warn("socket not ready (yet)");
     return new Promise((resolve, reject) => reject("socket not ready yet"));
   }
-  console.log("joining" + name);
+  console.log("joining " + name);
   const response = socket.emitWithAck(SocketEvents.joinRoom, {
     name: name,
     password: password,
@@ -45,7 +45,19 @@ export function joinRoom(name: string, password: string): Promise<any> {
   return response;
 }
 
-function handleRemoteAction(msg: any, mediaplayer: MediaPlayer) {}
+function handleRemoteAction(msg: any, mediaplayer: MediaPlayer) {
+  switch (msg.action) {
+    case "PLAY":
+      mediaplayer.play();
+      break;
+    case "PAUSE":
+      mediaplayer.pause();
+      break;
+
+    default:
+      break;
+  }
+}
 
 export let socketState: SocketStates = SocketStates.disconnected;
 
