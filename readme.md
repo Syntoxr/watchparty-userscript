@@ -8,7 +8,7 @@ The backend can be found [here](https://github.com/Syntoxr/watchparty-server)
 ## usage
 
 - To run this script, you need to install an userscript manager like [Violentmonkey](https://violentmonkey.github.io/get-it/) (preferred) or [Tampermonkey](https://www.tampermonkey.net/).
-- After that, open this [TODO] file. The userscript manager will automatically notice that you opened an userscript and asks if you want to install it.
+- After that, open [this](https://github.com/Syntoxr/watchparty-userscript/raw/gh-pages/watchparty.prod.user.js) file. The userscript manager will automatically notice that you opened an userscript and asks if you want to install it.
 
 ## development
 
