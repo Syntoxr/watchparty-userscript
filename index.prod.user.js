@@ -647,7 +647,7 @@ __webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 /* harmony export */   Ls: () => (/* binding */ joinRoom),
 /* harmony export */   mP: () => (/* binding */ initSocket)
 /* harmony export */ });
-/* unused harmony exports SocketEvents, socket */
+/* unused harmony export SocketEvents */
 /* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./node_modules/socket.io-client/build/esm/index.js");
 /* harmony import */ var _mediaplayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("./src/mediaplayer.ts");
 /* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("./src/ui.ts");
@@ -689,14 +689,25 @@ function joinRoom(name, password) {
         console.warn("socket not ready (yet)");
         return new Promise((resolve, reject) => reject("socket not ready yet"));
     }
-    console.log("joining" + name);
+    console.log("joining " + name);
     const response = socket.emitWithAck(SocketEvents.joinRoom, {
         name: name,
         password: password,
     });
     return response;
 }
-function handleRemoteAction(msg, mediaplayer) { }
+function handleRemoteAction(msg, mediaplayer) {
+    switch (msg.action) {
+        case "PLAY":
+            mediaplayer.play();
+            break;
+        case "PAUSE":
+            mediaplayer.pause();
+            break;
+        default:
+            break;
+    }
+}
 let socketState = SocketStates.disconnected;
 /**
  * Inits new socket and closes old one
