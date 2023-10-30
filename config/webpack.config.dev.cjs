@@ -9,8 +9,14 @@ const metadata = require("./metadata.cjs");
 const webpackConfig = require("./webpack.config.base.cjs");
 
 metadata.require.push(
-  "file://" + path.resolve(__dirname, "../dist/index.debug.js")
+  "file://" + path.resolve(__dirname, "../dist/index.debug.js"),
 );
+
+//remove namespace and add "-dev" to script name in order be able to install both, prod and dev scripts
+delete metadata.namespace;
+for (let key in metadata.name) {
+  metadata.name[key] += "-dev";
+}
 
 const cfg = merge(webpackConfig, {
   mode: "development",
