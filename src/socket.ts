@@ -1,8 +1,8 @@
 import { io } from "socket.io-client";
 import type { Socket } from "socket.io-client";
 import "./mediaplayer";
-import { MediaPlayer, getMediaPlayer } from "./mediaplayer";
-import { setColor as setUiColor } from "./ui";
+import { MediaPlayer } from "./mediaplayer";
+import { Ui } from "./ui";
 
 export enum SocketEvents {
   connect = "connect",
@@ -24,69 +24,26 @@ enum SocketActions {
   setTime = "SET_TIME",
 }
 
-let socket: Socket;
-
-/**
- * @param name
- * @param password
- * @returns Promise with response of request
- */
-export function joinRoom(name: string, password: string): Promise<any> {
-  //if socket not created or not connected return rejected promise instead of joining
-  if (!socket?.connected) {
-    console.warn("socket not ready (yet)");
-    return new Promise((resolve, reject) => reject("socket not ready yet"));
-  }
-  console.log("joining " + name);
-  const response = socket.emitWithAck(SocketEvents.joinRoom, {
-    name: name,
-    password: password,
-  });
-  return response;
-}
-
-function handleRemoteAction(msg: any, mediaplayer: MediaPlayer) {
-  switch (msg.action) {
-    case "PLAY":
-      mediaplayer.play();
-      break;
-    case "PAUSE":
-      mediaplayer.pause();
-      break;
-
-    default:
-      break;
-  }
-}
-
-export let socketState: SocketStates = SocketStates.disconnected;
-
-/**
- * Inits new socket and closes old one
- * @param url
- * @param token
- * @returns
- */
-export async function initSocket(url: string, token: string): Promise<void> {
-  return new Promise<void>((resolve) => {
-    //close old socket if exists
-    if (socket) socket.close();
-
-    socket = io(url, {
+export class WpSocket {
+  socketState = SocketStates.disconnected;
+  private socket: Socket;
+  constructor(
+    url: string,
+    token: string,
+    public mediaplayer: MediaPlayer,
+    public ui: Ui,
+  ) {
+    this.socket = io(url, {
       extraHeaders: {
         authorization: token,
       },
     });
 
-    socket.on(SocketEvents.connect, async () => {
-      setUiColor("active");
-      console.log("Socket connected as: " + socket.id);
-      socketState = SocketStates.connected;
-
-      const mediaplayer = await getMediaPlayer().catch((error) => {
-        socket.close();
-        throw error;
-      });
+    //Socket listeners
+    this.socket.on(SocketEvents.connect, async () => {
+      this.ui.setColor("active");
+      console.log("Socket connected as: " + this.socket.id);
+      this.socketState = SocketStates.connected;
 
       //in case the last action was triggered remotely
       let ignoreNextAction = false;
@@ -99,7 +56,7 @@ export async function initSocket(url: string, token: string): Promise<void> {
           ignoreNextAction = false;
           return;
         }
-        socket.emit(SocketEvents.action, { action: SocketActions.play });
+        this.socket.emit(SocketEvents.action, { action: SocketActions.play });
       };
 
       mediaplayer.onPause = () => {
@@ -107,7 +64,7 @@ export async function initSocket(url: string, token: string): Promise<void> {
           ignoreNextAction = false;
           return;
         }
-        socket.emit(SocketEvents.action, { action: SocketActions.pause });
+        this.socket.emit(SocketEvents.action, { action: SocketActions.pause });
       };
 
       mediaplayer.onSetTime = (time) => {
@@ -115,23 +72,58 @@ export async function initSocket(url: string, token: string): Promise<void> {
           ignoreNextAction = false;
           return;
         }
-        socket.emit(SocketEvents.action, {
+        this.socket.emit(SocketEvents.action, {
           action: SocketActions.setTime,
           time: time,
         });
       };
 
-      socket.on(SocketEvents.action, (msg) => {
+      this.socket.on(SocketEvents.action, (msg) => {
         ignoreNextAction = true;
-        handleRemoteAction(msg, mediaplayer);
+        switch (msg.action) {
+          case "PLAY":
+            mediaplayer.play();
+            break;
+          case "PAUSE":
+            mediaplayer.pause();
+            break;
+
+          default:
+            break;
+        }
       });
-      resolve();
     });
 
-    socket.on(SocketEvents.disconnect, () => {
-      setUiColor("inactive");
+    this.socket.on(SocketEvents.disconnect, () => {
+      this.ui.setColor("inactive");
       console.log("disconnected Socket");
-      socketState = SocketStates.disconnected;
+      this.socketState = SocketStates.disconnected;
     });
-  });
+  }
+
+  /**
+   * @param name
+   * @param password
+   * @returns Promise with response of request
+   */
+  joinRoom(name: string, password: string) {
+    //if socket not created or not connected return rejected promise instead of joining
+    if (!this.socket?.connected) {
+      console.warn("socket not ready (yet)");
+      return new Promise((resolve, reject) => reject("socket not ready yet"));
+    }
+    console.log("joining " + name);
+    const response = this.socket.emitWithAck(SocketEvents.joinRoom, {
+      name: name,
+      password: password,
+    });
+
+    response.then((msg) => {
+      this.ui.setUiRoomName(msg.name);
+    });
+  }
+
+  public close() {
+    this.socket.close();
+  }
 }

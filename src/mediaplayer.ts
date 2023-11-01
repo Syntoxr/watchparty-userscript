@@ -1,14 +1,3 @@
-let netflix: any;
-
-export class MediaPlayer {
-  play: () => void;
-  pause: () => void;
-  setTime: (time: number) => void;
-  onPlay: () => void;
-  onPause: () => void;
-  onSetTime: (time: number) => void;
-}
-
 function waitForElement(selector: string): Promise<HTMLVideoElement> {
   return new Promise((resolve) => {
     if (document.querySelector(selector)) {
@@ -29,39 +18,38 @@ function waitForElement(selector: string): Promise<HTMLVideoElement> {
   });
 }
 
-async function getNetflix() {
-  const video = (await waitForElement("video")) as HTMLVideoElement;
-  const mediaPlayer = new MediaPlayer();
-  mediaPlayer.play = () => video.play();
-  mediaPlayer.pause = () => video.pause();
-  mediaPlayer.setTime = () => {};
+export class MediaPlayer {
+  play: () => void;
+  pause: () => void;
+  setTime: (time: number) => void;
+  onPlay: () => void;
+  onPause: () => void;
+  onSetTime: (time: number) => void;
 
-  video.addEventListener("play", () => {
-    mediaPlayer.onPlay();
-  });
+  async initMediaPlayer() {
+    const host = window.location.host;
+    switch (host) {
+      case "www.netflix.com":
+        const video = (await waitForElement("video")) as HTMLVideoElement;
+        this.play = () => video.play();
+        this.pause = () => video.pause();
+        this.setTime = () => {};
 
-  video.addEventListener("pause", () => {
-    mediaPlayer.onPause();
-  });
+        video.addEventListener("play", () => {
+          this.onPlay();
+        });
 
-  video.addEventListener("seeked", (event) => {
-    console.log(event);
-    mediaPlayer.onSetTime((event.target as HTMLVideoElement).currentTime);
-  });
+        video.addEventListener("pause", () => {
+          this.onPause();
+        });
 
-  return mediaPlayer;
-}
+        video.addEventListener("seeked", (event) => {
+          console.log(event);
+          this.onSetTime((event.target as HTMLVideoElement).currentTime);
+        });
 
-//find, wrap and return mediaplayer for current website
-export async function getMediaPlayer(): Promise<MediaPlayer> {
-  const host = window.location.host;
-  switch (host) {
-    case "www.netflix.com":
-      return getNetflix();
-
-    default:
-      return new Promise((resolve, reject) => {
-        reject("Could not match any mediaplayer wrapper for current Website");
-      });
+      default:
+        throw "Could not match any mediaplayer wrapper for current Website";
+    }
   }
 }
