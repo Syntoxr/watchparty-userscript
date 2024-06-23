@@ -1,7 +1,6 @@
 import { io } from "socket.io-client";
 import type { Socket } from "socket.io-client";
-import "./mediaplayer";
-import { MediaPlayer, getMediaPlayer } from "./mediaplayer";
+import { MediaPlayer, getMediaPlayer } from "./mediaplayers/mediaplayer";
 import { setColor as setUiColor } from "./ui";
 
 export enum SocketEvents {
