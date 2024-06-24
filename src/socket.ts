@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 import type { Socket } from "socket.io-client";
 import { MediaPlayer, getMediaPlayer } from "./mediaplayers/mediaplayer";
-import { setColor as setUiColor } from "./ui";
+import { UI } from "./ui";
 
 export enum SocketEvents {
   connect = "connect",
@@ -66,7 +66,11 @@ export let socketState: SocketStates = SocketStates.disconnected;
  * @param token
  * @returns
  */
-export async function initSocket(url: string, token: string): Promise<void> {
+export async function initSocket(
+  url: string,
+  token: string,
+  ui: UI,
+): Promise<void> {
   return new Promise<void>((resolve) => {
     //close old socket if exists
     if (socket) socket.close();
@@ -78,7 +82,7 @@ export async function initSocket(url: string, token: string): Promise<void> {
     });
 
     socket.on(SocketEvents.connect, async () => {
-      setUiColor("active");
+      ui.setColor("active");
       console.log("Socket connected as: " + socket.id);
       socketState = SocketStates.connected;
 
@@ -128,7 +132,7 @@ export async function initSocket(url: string, token: string): Promise<void> {
     });
 
     socket.on(SocketEvents.disconnect, () => {
-      setUiColor("inactive");
+      ui.setColor("inactive");
       console.log("disconnected Socket");
       socketState = SocketStates.disconnected;
     });

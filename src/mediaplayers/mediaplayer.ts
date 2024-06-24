@@ -7,13 +7,13 @@ export enum Features {
 }
 
 export class MediaPlayer {
+  readonly supportedFeatures: Features[];
   play: () => void;
   pause: () => void;
   setTime: (time: number) => void;
   onPlay: () => void;
   onPause: () => void;
   onSetTime: (time: number) => void;
-  readonly supportedFeatures: Features[];
 
   constructor(features: Features[]) {
     this.supportedFeatures = features;
@@ -25,6 +25,15 @@ export class MediaPlayer {
     };
     this.setTime = () => {
       console.warn("[Watchparty] SetTime not supported by this player");
+    };
+    this.onPlay = () => {
+      console.warn("[Watchparty] onPlay not supported by this player");
+    };
+    this.onPause = () => {
+      console.warn("[Watchparty] onPause not supported by this player");
+    };
+    this.onSetTime = () => {
+      console.warn("[Watchparty] onSetTime not supported by this player");
     };
   }
 }

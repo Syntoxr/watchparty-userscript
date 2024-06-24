@@ -28,16 +28,16 @@ const webpackConfig = {
       },
       {
         test: /\.less$/,
-        use: ["style-loader", "css-loader", "less-loader"],
+        use: ["css-loader", "less-loader"],
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ["css-loader"],
       },
       {
         test: /\.html$/,
-        use: "html-loader"
-      }
+        use: "html-loader",
+      },
     ],
   },
   plugins: process.env.npm_config_report ? [new BundleAnalyzerPlugin()] : [],

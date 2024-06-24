@@ -1,14 +1,11 @@
-import "./style/main.less";
-import "./ui"
-import "./socket"
-
+import "./socket";
+import { UI } from "./ui";
 
 async function main() {
-  console.log("watchparty start");
+  console.log("watchparty starting");
+  const ui = new UI();
 }
 
-
-
 main().catch((e) => {
-  console.log(e);
+  console.error(e);
 });
