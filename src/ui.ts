@@ -33,7 +33,6 @@ export class UI {
     /**
      * Enable or disable submit button based on form validity
      */
-    this.updateSubmitActivation();
     this.htmlElements.configForm
       .querySelectorAll("input")
       .forEach((element) => {
@@ -169,6 +168,7 @@ export class UI {
     this.htmlElements.inputToken.value = this.token;
     this.htmlElements.inputRoomName.value = this.roomName;
     this.htmlElements.inputRoomPassword.value = this.roomPassword;
+    this.updateSubmitActivation();
   }
 
   private updateSubmitActivation() {
