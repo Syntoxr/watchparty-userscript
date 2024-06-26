@@ -2,18 +2,8 @@
 @background_color: #FA4252;
 @element_color: white;
 @transition_duration: 0.2s;
+@font_size: 14px;
 
-
-//reset all styles
-#wp-ui,
-#wp-ui * {
-  border-radius: 0;
-  width: fit-content;
-  margin: 0;
-  padding: 0;
-  font-size: 14px;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
 
 #wp-ui {
   background-color: @background_color;
@@ -28,24 +18,23 @@
 
 #label-toggle {
   float: right;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
   padding: 2px;
   display: block;
+  width: @element_height;
   height: @element_height;
-  background: white;
-  color: black;
+  background: @element_color;
   cursor: pointer;
 }
 
-.wp-pixeled,
 #wp-ui,
-#wp-config-form button,
-#wp-config-form input,
+button,
+input,
 #label-toggle {
   box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.75);
 }
 
-#wp-config-form {
+form {
   margin: 0 auto;
   max-height: 0px;
   max-width: 0px;
@@ -53,41 +42,32 @@
   transition: max-height @transition_duration ease-in-out, max-width @transition_duration ease-in-out;
 }
 
-#wp-ui button {
+button {
   height: @element_height;
   background-color: @element_color;
   flex: 1;
-  margin: 5px;
   padding-left: 2px;
   padding-right: 2px;
   text-align: center;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 8px;
+  border: none;
+  color: black;
 }
 
-#wp-ui button:hover,
-#label-toggle:hover {
-  background-color: #dddddd;
-}
-
-#label-toggle:active,
-#wp-config-form:valid button:active,
-#wp-config-form input:focus {
-  box-shadow: 0px 0px 0px;
-  transform: translate(3px, 3px);
-  outline: none;
-}
-
-#wp-config-form table {
+table {
   width: 100%;
   border-collapse: collapse;
 }
 
-#wp-config-form td {
+td {
   padding: 5px;
   padding-top: 2px;
   padding-bottom: 2px;
 }
 
-#wp-config-form input {
+input {
   width: 100%;
   box-sizing: border-box;
   height: @element_height;
@@ -98,17 +78,24 @@
   color: black;
 }
 
-#wp-config-form button {
-  width: 100%;
-  margin: 0;
-  margin-bottom: 5px;
-  border: none;
-  color: black;
-}
-
 #wp-config-form label {
   font-size: 10px;
   color: white;
+}
+
+
+button:hover,
+button:disabled,
+#label-toggle:hover {
+  filter: brightness(75%);;
+}
+
+#label-toggle:active,
+form:valid button:active,
+input:focus {
+  box-shadow: 0px 0px 0px;
+  transform: translate(3px, 3px);
+  outline: none;
 }
 
 
