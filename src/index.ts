@@ -1,4 +1,3 @@
-import "./socket";
 import { UI } from "./ui";
 
 async function main() {

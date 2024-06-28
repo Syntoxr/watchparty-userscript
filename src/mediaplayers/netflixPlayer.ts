@@ -1,25 +1,48 @@
 import { waitForElement } from "../util/waitForElement";
+import { waitForElementDeletion } from "../util/waitForElementDeletion";
 import { Features, MediaPlayer } from "./mediaplayer";
 
-export async function getNetflixPlayer(): Promise<MediaPlayer> {
-  const video = (await waitForElement("video")) as HTMLVideoElement;
-  const mediaPlayer = new MediaPlayer([Features.Play, Features.Pause]);
-  mediaPlayer.play = () => video.play();
-  mediaPlayer.pause = () => video.pause();
-  mediaPlayer.setTime = () => {};
+export class NetflixPlayer extends MediaPlayer {
+  video: HTMLVideoElement;
+  constructor() {
+    super([Features.Play, Features.Pause]);
+  }
 
-  video.addEventListener("play", () => {
-    mediaPlayer.onPlay();
-  });
+  protected async setup() {
+    this.video = (await waitForElement("video")) as HTMLVideoElement;
+    /**
+     * Player controls
+     */
+    this.play = () => this.video.play();
+    this.pause = () => this.video.pause();
+    this.setTime = () => {};
 
-  video.addEventListener("pause", () => {
-    mediaPlayer.onPause();
-  });
+    /**
+     * Player events
+     */
 
-  video.addEventListener("seeked", (event) => {
-    console.log(event);
-    mediaPlayer.onSetTime((event.target as HTMLVideoElement).currentTime);
-  });
+    this.video.addEventListener("play", () => {
+      this.onPlay();
+    });
 
-  return mediaPlayer;
+    this.video.addEventListener("pause", () => {
+      this.onPause();
+    });
+
+    this.video.addEventListener("seeked", (event) => {
+      this.onSetTime((event.target as HTMLVideoElement).currentTime);
+    });
+
+    /**
+     * recall setup on deletion
+     */
+
+    waitForElementDeletion(this.video, this.video.parentElement).then(
+      async () => {
+        console.log("player deleted");
+        this.setup();
+      },
+    );
+    console.log("Player rigged");
+  }
 }

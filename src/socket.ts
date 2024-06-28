@@ -1,6 +1,7 @@
 import { io } from "socket.io-client";
 import type { Socket } from "socket.io-client";
-import { MediaPlayer, getMediaPlayer } from "./mediaplayers/mediaplayer";
+import { MediaPlayer } from "./mediaplayers/mediaplayer";
+import { getMediaPlayer } from "./mediaplayers/getMediaplayer";
 import { UI } from "./ui";
 
 export enum SocketEvents {
@@ -58,6 +59,8 @@ function handleRemoteAction(msg: any, mediaplayer: MediaPlayer) {
   }
 }
 
+const mediaplayer = getMediaPlayer();
+
 export let socketState: SocketStates = SocketStates.disconnected;
 
 /**
@@ -85,11 +88,6 @@ export async function initSocket(
       ui.setColor("active");
       console.log("Socket connected as: " + socket.id);
       socketState = SocketStates.connected;
-
-      const mediaplayer = await getMediaPlayer().catch((error) => {
-        socket.close();
-        throw error;
-      });
 
       //in case the last action was triggered remotely
       let ignoreNextAction = false;
