@@ -4,13 +4,10 @@
 // @namespace     https://github.com/Syntoxr
 // @downloadURL   https://github.com/Syntoxr/watchparty-userscript/raw/gh-pages/watchparty.prod.user.js
 // @supportURL    https://github.com/Syntoxr/watchparty-userscript
-// @version       0.0.2
+// @version       0.0.3
 // @author        Syntoxr
 // @source        https://github.com/Syntoxr/watchparty-userscript
-// @match         https://www.netflix.com/watch/*
-// @match         *://www.example.com/
-// @match         *://example.com/*
-// @match         file:///home/milan/Downloads/Example%20Domain.html
+// @match         https://www.netflix.com/*
 // @grant         GM.setValue
 // @grant         GM.getValue
 // @run-at        document-end
