@@ -4422,6 +4422,7 @@ class MediaPlayer {
 class NetflixPlayer extends MediaPlayer {
     constructor() {
         super([Features.Play, Features.Pause]);
+        this.lastVolumeChange = 0;
     }
     async setup() {
         this.video = (await waitForElement("video"));
@@ -4437,11 +4438,28 @@ class NetflixPlayer extends MediaPlayer {
         this.video.addEventListener("play", () => {
             this.onPlay();
         });
-        this.video.addEventListener("pause", () => {
+        /*
+         * handle pause events and filter out false ones
+         */
+        this.video.addEventListener("pause", (event) => {
+            if (event.timeStamp - this.lastVolumeChange < 500) {
+                console.log("Next episode detected - not relaying pause event");
+                return;
+            }
             this.onPause();
         });
+        /*
+         * handle seek events which occur when the video gets set to a new time
+         */
         this.video.addEventListener("seeked", (event) => {
             this.onSetTime(event.target.currentTime);
+        });
+        /** stores the last time the volume was changed
+         *  this is used to determine if a pause event got fired
+         *  by moving to a next episode in firefox
+         */
+        this.video.addEventListener("volumechange", (event) => {
+            this.lastVolumeChange = event.timeStamp;
         });
         /**
          * recall setup on deletion
