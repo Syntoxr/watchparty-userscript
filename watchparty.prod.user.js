@@ -20,7 +20,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/less-loader/dist/cjs.js!./src/style/main.less":
+/***/ "./src/style/main.less":
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -35,20 +35,8 @@
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, `#wp-ui,
-#wp-ui * {
-  border-radius: 0;
-  width: fit-content;
-  margin: 0;
-  padding: 0;
-  font-size: 14px;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-#wp-ui {
+___CSS_LOADER_EXPORT___.push([module.id, `#wp-ui {
   background-color: #FA4252;
-  position: absolute;
-  top: 20px;
-  right: 20px;
   padding: 5px;
   padding-bottom: 0;
   box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.75);
@@ -59,58 +47,50 @@ ___CSS_LOADER_EXPORT___.push([module.id, `#wp-ui,
 }
 #label-toggle {
   float: right;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
   padding: 2px;
   display: block;
+  width: 20px;
   height: 20px;
   background: white;
-  color: black;
   cursor: pointer;
 }
-.wp-pixeled,
 #wp-ui,
-#wp-config-form button,
-#wp-config-form input,
+button,
+input,
 #label-toggle {
   box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.75);
 }
-#wp-config-form {
+form {
   margin: 0 auto;
   max-height: 0px;
   max-width: 0px;
   overflow: hidden;
   transition: max-height 0.2s ease-in-out, max-width 0.2s ease-in-out;
 }
-#wp-ui button {
+button {
   height: 20px;
   background-color: white;
   flex: 1;
-  margin: 5px;
   padding-left: 2px;
   padding-right: 2px;
   text-align: center;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 8px;
+  border: none;
+  color: black;
 }
-#wp-ui button:hover,
-#label-toggle:hover {
-  background-color: #dddddd;
-}
-#label-toggle:active,
-#wp-config-form:valid button:active,
-#wp-config-form input:focus {
-  box-shadow: 0px 0px 0px;
-  transform: translate(3px, 3px);
-  outline: none;
-}
-#wp-config-form table {
+table {
   width: 100%;
   border-collapse: collapse;
 }
-#wp-config-form td {
+td {
   padding: 5px;
   padding-top: 2px;
   padding-bottom: 2px;
 }
-#wp-config-form input {
+input {
   width: 100%;
   box-sizing: border-box;
   height: 20px;
@@ -120,16 +100,21 @@ ___CSS_LOADER_EXPORT___.push([module.id, `#wp-ui,
   margin-right: 5px;
   color: black;
 }
-#wp-config-form button {
-  width: 100%;
-  margin: 0;
-  margin-bottom: 5px;
-  border: none;
-  color: black;
-}
 #wp-config-form label {
   font-size: 10px;
   color: white;
+}
+button:hover,
+button:disabled,
+#label-toggle:hover {
+  filter: brightness(75%);
+}
+#label-toggle:active,
+form:valid button:active,
+input:focus {
+  box-shadow: 0px 0px 0px;
+  transform: translate(3px, 3px);
+  outline: none;
 }
 .toggle:checked + #label-toggle + #wp-config-form {
   max-width: 354px;
@@ -243,688 +228,79 @@ module.exports = function (i) {
   return i[1];
 };
 
-/***/ }),
-
-/***/ "./src/html/ui.html":
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Z: () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-// Module
-var code = "<div id=\"wp-ui\"> <input id=\"collapsible-toggle\" class=\"toggle\" type=\"checkbox\" style=\"display:none\"/> <label id=\"label-toggle\" for=\"collapsible-toggle\">WP</label> <form id=\"wp-config-form\"> <table> <tr> <td colspan=\"2\"> <input id=\"wp-url-input\" type=\"text\" placeholder=\"Input server URL\" required/> <label for=\"wp-url-input\">The server you want to connect to</label> </td> </tr> <tr> <td colspan=\"2\"> <input id=\"wp-token-input\" type=\"text\" placeholder=\"Input server token\" required/> <label for=\"wp-token-input\">The token for the specified server</label> </td> </tr> <tr> <td> <input id=\"wp-room-name-input\" type=\"text\" placeholder=\"Room name\"/> <label for=\"wp-room-name-input\">Room name - leave blank to create one</label> </td> <td> <input id=\"wp-room-password-input\" type=\"text\" placeholder=\"Room password\"/> <label for=\"wp-room-password-input\">Password for room</label> </td> </tr> <tr> <td colspan=\"2\"> <button id=\"wp-submit-button\">Join / Create Room</button> </td> </tr> </table> </form> </div> ";
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
-
-/***/ }),
-
-/***/ "./src/style/main.less":
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("./node_modules/style-loader/dist/runtime/styleDomAPI.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("./node_modules/style-loader/dist/runtime/insertBySelector.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("./node_modules/style-loader/dist/runtime/insertStyleElement.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("./node_modules/style-loader/dist/runtime/styleTagTransform.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_less_loader_dist_cjs_js_main_less__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("./node_modules/css-loader/dist/cjs.js!./node_modules/less-loader/dist/cjs.js!./src/style/main.less");
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-
-      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-    
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_less_loader_dist_cjs_js_main_less__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .Z, options);
-
-
-
-
-       /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_less_loader_dist_cjs_js_main_less__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .Z && _node_modules_css_loader_dist_cjs_js_node_modules_less_loader_dist_cjs_js_main_less__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .Z.locals ? _node_modules_css_loader_dist_cjs_js_node_modules_less_loader_dist_cjs_js_main_less__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .Z.locals : undefined);
-
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
-/***/ ((module) => {
-
-
-
-var stylesInDOM = [];
-function getIndexByIdentifier(identifier) {
-  var result = -1;
-  for (var i = 0; i < stylesInDOM.length; i++) {
-    if (stylesInDOM[i].identifier === identifier) {
-      result = i;
-      break;
-    }
-  }
-  return result;
-}
-function modulesToDom(list, options) {
-  var idCountMap = {};
-  var identifiers = [];
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i];
-    var id = options.base ? item[0] + options.base : item[0];
-    var count = idCountMap[id] || 0;
-    var identifier = "".concat(id, " ").concat(count);
-    idCountMap[id] = count + 1;
-    var indexByIdentifier = getIndexByIdentifier(identifier);
-    var obj = {
-      css: item[1],
-      media: item[2],
-      sourceMap: item[3],
-      supports: item[4],
-      layer: item[5]
-    };
-    if (indexByIdentifier !== -1) {
-      stylesInDOM[indexByIdentifier].references++;
-      stylesInDOM[indexByIdentifier].updater(obj);
-    } else {
-      var updater = addElementStyle(obj, options);
-      options.byIndex = i;
-      stylesInDOM.splice(i, 0, {
-        identifier: identifier,
-        updater: updater,
-        references: 1
-      });
-    }
-    identifiers.push(identifier);
-  }
-  return identifiers;
-}
-function addElementStyle(obj, options) {
-  var api = options.domAPI(options);
-  api.update(obj);
-  var updater = function updater(newObj) {
-    if (newObj) {
-      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap && newObj.supports === obj.supports && newObj.layer === obj.layer) {
-        return;
-      }
-      api.update(obj = newObj);
-    } else {
-      api.remove();
-    }
-  };
-  return updater;
-}
-module.exports = function (list, options) {
-  options = options || {};
-  list = list || [];
-  var lastIdentifiers = modulesToDom(list, options);
-  return function update(newList) {
-    newList = newList || [];
-    for (var i = 0; i < lastIdentifiers.length; i++) {
-      var identifier = lastIdentifiers[i];
-      var index = getIndexByIdentifier(identifier);
-      stylesInDOM[index].references--;
-    }
-    var newLastIdentifiers = modulesToDom(newList, options);
-    for (var _i = 0; _i < lastIdentifiers.length; _i++) {
-      var _identifier = lastIdentifiers[_i];
-      var _index = getIndexByIdentifier(_identifier);
-      if (stylesInDOM[_index].references === 0) {
-        stylesInDOM[_index].updater();
-        stylesInDOM.splice(_index, 1);
-      }
-    }
-    lastIdentifiers = newLastIdentifiers;
-  };
-};
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/insertBySelector.js":
-/***/ ((module) => {
-
-
-
-var memo = {};
-
-/* istanbul ignore next  */
-function getTarget(target) {
-  if (typeof memo[target] === "undefined") {
-    var styleTarget = document.querySelector(target);
-
-    // Special case to return head of iframe instead of iframe itself
-    if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
-      try {
-        // This will throw an exception if access to iframe is blocked
-        // due to cross-origin restrictions
-        styleTarget = styleTarget.contentDocument.head;
-      } catch (e) {
-        // istanbul ignore next
-        styleTarget = null;
-      }
-    }
-    memo[target] = styleTarget;
-  }
-  return memo[target];
-}
-
-/* istanbul ignore next  */
-function insertBySelector(insert, style) {
-  var target = getTarget(insert);
-  if (!target) {
-    throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
-  }
-  target.appendChild(style);
-}
-module.exports = insertBySelector;
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/insertStyleElement.js":
-/***/ ((module) => {
-
-
-
-/* istanbul ignore next  */
-function insertStyleElement(options) {
-  var element = document.createElement("style");
-  options.setAttributes(element, options.attributes);
-  options.insert(element, options.options);
-  return element;
-}
-module.exports = insertStyleElement;
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js":
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-/* istanbul ignore next  */
-function setAttributesWithoutAttributes(styleElement) {
-  var nonce =  true ? __webpack_require__.nc : 0;
-  if (nonce) {
-    styleElement.setAttribute("nonce", nonce);
-  }
-}
-module.exports = setAttributesWithoutAttributes;
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/styleDomAPI.js":
-/***/ ((module) => {
-
-
-
-/* istanbul ignore next  */
-function apply(styleElement, options, obj) {
-  var css = "";
-  if (obj.supports) {
-    css += "@supports (".concat(obj.supports, ") {");
-  }
-  if (obj.media) {
-    css += "@media ".concat(obj.media, " {");
-  }
-  var needLayer = typeof obj.layer !== "undefined";
-  if (needLayer) {
-    css += "@layer".concat(obj.layer.length > 0 ? " ".concat(obj.layer) : "", " {");
-  }
-  css += obj.css;
-  if (needLayer) {
-    css += "}";
-  }
-  if (obj.media) {
-    css += "}";
-  }
-  if (obj.supports) {
-    css += "}";
-  }
-  var sourceMap = obj.sourceMap;
-  if (sourceMap && typeof btoa !== "undefined") {
-    css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
-  }
-
-  // For old IE
-  /* istanbul ignore if  */
-  options.styleTagTransform(css, styleElement, options.options);
-}
-function removeStyleElement(styleElement) {
-  // istanbul ignore if
-  if (styleElement.parentNode === null) {
-    return false;
-  }
-  styleElement.parentNode.removeChild(styleElement);
-}
-
-/* istanbul ignore next  */
-function domAPI(options) {
-  if (typeof document === "undefined") {
-    return {
-      update: function update() {},
-      remove: function remove() {}
-    };
-  }
-  var styleElement = options.insertStyleElement(options);
-  return {
-    update: function update(obj) {
-      apply(styleElement, options, obj);
-    },
-    remove: function remove() {
-      removeStyleElement(styleElement);
-    }
-  };
-}
-module.exports = domAPI;
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/runtime/styleTagTransform.js":
-/***/ ((module) => {
-
-
-
-/* istanbul ignore next  */
-function styleTagTransform(css, styleElement) {
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = css;
-  } else {
-    while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild);
-    }
-    styleElement.appendChild(document.createTextNode(css));
-  }
-}
-module.exports = styleTagTransform;
-
-/***/ }),
-
-/***/ "./src/index.ts":
-/***/ ((module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
-/* harmony import */ var _style_main_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./src/style/main.less");
-/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("./src/ui.ts");
-/* harmony import */ var _socket__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("./src/socket.ts");
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_ui__WEBPACK_IMPORTED_MODULE_1__, _socket__WEBPACK_IMPORTED_MODULE_2__]);
-([_ui__WEBPACK_IMPORTED_MODULE_1__, _socket__WEBPACK_IMPORTED_MODULE_2__] = __webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__);
-
-
-
-async function main() {
-    console.log("watchparty start");
-}
-main().catch((e) => {
-    console.log(e);
-});
-
-__webpack_async_result__();
-} catch(e) { __webpack_async_result__(e); } });
-
-/***/ }),
-
-/***/ "./src/mediaplayer.ts":
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   L: () => (/* binding */ getMediaPlayer)
-/* harmony export */ });
-/* unused harmony export MediaPlayer */
-let netflix;
-class MediaPlayer {
-}
-function waitForElement(selector) {
-    return new Promise((resolve) => {
-        if (document.querySelector(selector)) {
-            return resolve(document.querySelector(selector));
-        }
-        const observer = new MutationObserver(() => {
-            if (document.querySelector(selector)) {
-                resolve(document.querySelector(selector));
-                observer.disconnect();
-            }
-        });
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-        });
-    });
-}
-async function getNetflix() {
-    const video = (await waitForElement("video"));
-    const mediaPlayer = new MediaPlayer();
-    mediaPlayer.play = () => video.play();
-    mediaPlayer.pause = () => video.pause();
-    mediaPlayer.setTime = () => { };
-    video.addEventListener("play", () => {
-        mediaPlayer.onPlay();
-    });
-    video.addEventListener("pause", () => {
-        mediaPlayer.onPause();
-    });
-    video.addEventListener("seeked", (event) => {
-        console.log(event);
-        mediaPlayer.onSetTime(event.target.currentTime);
-    });
-    return mediaPlayer;
-}
-//find, wrap and return mediaplayer for current website
-async function getMediaPlayer() {
-    const host = window.location.host;
-    switch (host) {
-        case "www.netflix.com":
-            return getNetflix();
-        default:
-            return new Promise((resolve, reject) => {
-                reject("Could not match any mediaplayer wrapper for current Website");
-            });
-    }
-}
-
-
-/***/ }),
-
-/***/ "./src/socket.ts":
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Cu: () => (/* binding */ socketState),
-/* harmony export */   Hp: () => (/* binding */ SocketStates),
-/* harmony export */   Ls: () => (/* binding */ joinRoom),
-/* harmony export */   mP: () => (/* binding */ initSocket)
-/* harmony export */ });
-/* unused harmony export SocketEvents */
-/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./node_modules/socket.io-client/build/esm/index.js");
-/* harmony import */ var _mediaplayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("./src/mediaplayer.ts");
-/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("./src/ui.ts");
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_ui__WEBPACK_IMPORTED_MODULE_1__]);
-_ui__WEBPACK_IMPORTED_MODULE_1__ = (__webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__)[0];
-
-
-
-
-var SocketEvents;
-(function (SocketEvents) {
-    SocketEvents["connect"] = "connect";
-    SocketEvents["disconnect"] = "disconnect";
-    SocketEvents["joinRoom"] = "joinRoom";
-    SocketEvents["action"] = "action";
-})(SocketEvents || (SocketEvents = {}));
-var SocketStates;
-(function (SocketStates) {
-    SocketStates[SocketStates["connecting"] = 0] = "connecting";
-    SocketStates[SocketStates["connected"] = 1] = "connected";
-    SocketStates[SocketStates["ready"] = 2] = "ready";
-    SocketStates[SocketStates["disconnected"] = 3] = "disconnected";
-})(SocketStates || (SocketStates = {}));
-var SocketActions;
-(function (SocketActions) {
-    SocketActions["play"] = "PLAY";
-    SocketActions["pause"] = "PAUSE";
-    SocketActions["setTime"] = "SET_TIME";
-})(SocketActions || (SocketActions = {}));
-let socket;
-/**
- * @param name
- * @param password
- * @returns Promise with response of request
- */
-function joinRoom(name, password) {
-    //if socket not created or not connected return rejected promise instead of joining
-    if (!socket?.connected) {
-        console.warn("socket not ready (yet)");
-        return new Promise((resolve, reject) => reject("socket not ready yet"));
-    }
-    console.log("joining " + name);
-    const response = socket.emitWithAck(SocketEvents.joinRoom, {
-        name: name,
-        password: password,
-    });
-    return response;
-}
-function handleRemoteAction(msg, mediaplayer) {
-    switch (msg.action) {
-        case "PLAY":
-            mediaplayer.play();
-            break;
-        case "PAUSE":
-            mediaplayer.pause();
-            break;
-        default:
-            break;
-    }
-}
-let socketState = SocketStates.disconnected;
-/**
- * Inits new socket and closes old one
- * @param url
- * @param token
- * @returns
- */
-async function initSocket(url, token) {
-    return new Promise((resolve) => {
-        //close old socket if exists
-        if (socket)
-            socket.close();
-        socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_0__.io)(url, {
-            extraHeaders: {
-                authorization: token,
-            },
-        });
-        socket.on(SocketEvents.connect, async () => {
-            (0,_ui__WEBPACK_IMPORTED_MODULE_1__/* .setColor */ .v)("active");
-            console.log("Socket connected as: " + socket.id);
-            socketState = SocketStates.connected;
-            const mediaplayer = await (0,_mediaplayer__WEBPACK_IMPORTED_MODULE_2__/* .getMediaPlayer */ .L)().catch((error) => {
-                socket.close();
-                throw error;
-            });
-            //in case the last action was triggered remotely
-            let ignoreNextAction = false;
-            /**
-             * Mediaplayer listeners
-             */
-            mediaplayer.onPlay = () => {
-                if (ignoreNextAction) {
-                    ignoreNextAction = false;
-                    return;
-                }
-                socket.emit(SocketEvents.action, { action: SocketActions.play });
-            };
-            mediaplayer.onPause = () => {
-                if (ignoreNextAction) {
-                    ignoreNextAction = false;
-                    return;
-                }
-                socket.emit(SocketEvents.action, { action: SocketActions.pause });
-            };
-            mediaplayer.onSetTime = (time) => {
-                if (ignoreNextAction) {
-                    ignoreNextAction = false;
-                    return;
-                }
-                socket.emit(SocketEvents.action, {
-                    action: SocketActions.setTime,
-                    time: time,
-                });
-            };
-            socket.on(SocketEvents.action, (msg) => {
-                ignoreNextAction = true;
-                handleRemoteAction(msg, mediaplayer);
-            });
-            resolve();
-        });
-        socket.on(SocketEvents.disconnect, () => {
-            (0,_ui__WEBPACK_IMPORTED_MODULE_1__/* .setColor */ .v)("inactive");
-            console.log("disconnected Socket");
-            socketState = SocketStates.disconnected;
-        });
-    });
-}
-
-__webpack_async_result__();
-} catch(e) { __webpack_async_result__(e); } });
-
-/***/ }),
-
-/***/ "./src/ui.ts":
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   v: () => (/* binding */ setColor)
-/* harmony export */ });
-/* unused harmony export setUiRoomName */
-/* harmony import */ var _html_ui_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("./src/html/ui.html");
-/* harmony import */ var _socket__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./src/socket.ts");
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_socket__WEBPACK_IMPORTED_MODULE_0__]);
-_socket__WEBPACK_IMPORTED_MODULE_0__ = (__webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__)[0];
-
-
-document.body.insertAdjacentHTML("beforeend", _html_ui_html__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z);
-var GmValues;
-(function (GmValues) {
-    GmValues["url"] = "WP_URL";
-    GmValues["token"] = "WP_TOKEN";
-    GmValues["roomName"] = "WP_ROOM_NAME";
-    GmValues["roomPassword"] = "WP_ROOM_PASSWORD";
-})(GmValues || (GmValues = {}));
-let url = await GM.getValue(GmValues.url, "");
-let token = await GM.getValue(GmValues.token, "");
-let roomName = await GM.getValue(GmValues.roomName, "");
-let roomPassword = await GM.getValue(GmValues.roomPassword, "");
-const htmlElements = {
-    ui: document.getElementById("wp-ui"),
-    configForm: document.getElementById("wp-config-form"),
-    inputToggle: document.getElementById("collapsible-toggle"),
-    inputUrl: document.getElementById("wp-url-input"),
-    inputToken: document.getElementById("wp-token-input"),
-    inputRoomName: document.getElementById("wp-room-name-input"),
-    inputRoomPassword: document.getElementById("wp-room-password-input"),
-    submitButton: document.getElementById("wp-submit-button"),
-};
-htmlElements.inputUrl.value = url;
-htmlElements.inputToken.value = token;
-htmlElements.inputRoomName.value = roomName;
-htmlElements.inputRoomPassword.value = roomPassword;
-/**
- * Enable or disable submit button based on form validity
- */
-function manageSubmitActivation() {
-    if (htmlElements.configForm.checkValidity() == false) {
-        htmlElements.submitButton.disabled = true;
-    }
-    else
-        htmlElements.submitButton.disabled = false;
-}
-manageSubmitActivation();
-htmlElements.configForm.querySelectorAll("input").forEach((element) => {
-    element.oninput = () => {
-        manageSubmitActivation();
-    };
-});
-/**
- * hide when no mouse movement
- */
-let mouseTimer = setTimeout(() => { }, 5000);
-htmlElements.inputToggle.addEventListener("click", (event) => {
-    clearTimeout(mouseTimer);
-    if (htmlElements.inputToggle.checked == false) {
-        mouseTimer = setTimeout(() => (htmlElements.ui.style.opacity = "0%"), 2e3);
-    }
-});
-document.addEventListener("mousemove", () => {
-    htmlElements.ui.style.opacity = "100%";
-    clearTimeout(mouseTimer);
-    if (!htmlElements.inputToggle.checked) {
-        mouseTimer = setTimeout(() => (htmlElements.ui.style.opacity = "0%"), 2e3);
-    }
-});
-/**
- * Set background color based on connection state
- */
-function setColor(state) {
-    if (state === "active") {
-        htmlElements.ui.style.backgroundColor = "#91BD3A";
-    }
-    else {
-        htmlElements.ui.style.backgroundColor = "#FA4252";
-    }
-}
-/**
- * used to externally set the room name
- * @param name room name
- */
-function setUiRoomName(name) {
-    htmlElements.inputRoomName.value = name;
-    GM.setValue(GmValues.roomName, name);
-    roomName = name;
-}
-/**
- * om submit
- */
-htmlElements.configForm.onsubmit = (event) => {
-    event.preventDefault();
-    const newUrl = htmlElements.inputUrl.value;
-    const newToken = htmlElements.inputToken.value;
-    const newRoomName = htmlElements.inputRoomName.value;
-    const newRoomPassword = htmlElements.inputRoomPassword.value;
-    //create new socket if url or token changed or socket not connected. Join specified room otherwise
-    if (newUrl !== url ||
-        newToken !== token ||
-        _socket__WEBPACK_IMPORTED_MODULE_0__/* .socketState */ .Cu !== _socket__WEBPACK_IMPORTED_MODULE_0__/* .SocketStates */ .Hp.connected) {
-        (0,_socket__WEBPACK_IMPORTED_MODULE_0__/* .initSocket */ .mP)(newUrl, newToken).then(() => {
-            (0,_socket__WEBPACK_IMPORTED_MODULE_0__/* .joinRoom */ .Ls)(newRoomName, newRoomPassword).then((msg) => {
-                htmlElements.inputRoomName.value = msg.name;
-            });
-        });
-    }
-    else {
-        (0,_socket__WEBPACK_IMPORTED_MODULE_0__/* .joinRoom */ .Ls)(newRoomName, newRoomPassword).then((msg) => {
-            htmlElements.inputRoomName.value = msg.name;
-        });
-    }
-    url = newUrl;
-    token = newToken;
-    roomName = newRoomName;
-    roomPassword = newRoomPassword;
-    GM.setValue(GmValues.url, newUrl);
-    GM.setValue(GmValues.token, newToken);
-    GM.setValue(GmValues.roomName, newRoomName);
-    GM.setValue(GmValues.roomPassword, newRoomPassword);
-};
-
-__webpack_async_result__();
-} catch(e) { __webpack_async_result__(e); } }, 1);
-
-/***/ }),
-
-/***/ "./node_modules/socket.io-client/build/esm/index.js":
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  io: () => (/* binding */ esm_lookup)
-});
-
-// UNUSED EXPORTS: Manager, Socket, connect, default, protocol
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
 
 // NAMESPACE OBJECT: ./node_modules/socket.io-parser/build/esm/index.js
 var socket_io_parser_build_esm_namespaceObject = {};
@@ -936,6 +312,13 @@ __webpack_require__.d(socket_io_parser_build_esm_namespaceObject, {
   protocol: () => (build_esm_protocol)
 });
 
+;// CONCATENATED MODULE: ./src/html/ui.html
+// Module
+var code = "<div id=\"wp-ui\"> <input id=\"collapsible-toggle\" class=\"toggle\" type=\"checkbox\" style=\"display:none\"/> <label id=\"label-toggle\" for=\"collapsible-toggle\"> <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"20px\" viewBox=\"0 -960 960 960\" width=\"20px\" fill=\"#000000\"><path d=\"m96-101 195-551 357 356L96-101Zm118-118 302-107-195-195-107 302Zm358-255-34-34 220-221q28-28 67.5-28t68.5 28l35 34-34 35-34-35q-14-14-34.5-14T792-695L572-474ZM435-610l-34-34 34-34q14-14 14-33.5T435-745l-34-35 34-34 34 34q27 29 27 68t-27 68l-34 34Zm69 68-35-34 119-119q14-14 14-34t-14-34l-68-67 34-34 68 68q29 29 29 68.5T622-660L504-542Zm135 136-34-34 85-85q29-27 68.5-27.5T826-525l68 68-34 34-68-68q-14-14-34-14t-34 14l-85 85ZM214-219Z\"/></svg> </label> <form id=\"wp-config-form\"> <table> <tr> <td colspan=\"2\"> <input id=\"wp-url-input\" type=\"text\" placeholder=\"Input server URL\" required/> <label for=\"wp-url-input\">The server you want to connect to</label> </td> </tr> <tr> <td colspan=\"2\"> <input id=\"wp-token-input\" type=\"text\" placeholder=\"Input server token\" required/> <label for=\"wp-token-input\">The token for the specified server</label> </td> </tr> <tr> <td> <input id=\"wp-room-name-input\" type=\"text\" placeholder=\"Room name\"/> <label for=\"wp-room-name-input\">Room name - leave blank to create one</label> </td> <td> <input id=\"wp-room-password-input\" type=\"text\" placeholder=\"Room password\"/> <label for=\"wp-room-password-input\">Password for room</label> </td> </tr> <tr> <td colspan=\"2\"> <button id=\"wp-submit-button\">Join / Create Room</button> </td> </tr> </table> </form> </div> ";
+// Exports
+/* harmony default export */ const ui = (code);
+// EXTERNAL MODULE: ./src/style/main.less
+var main = __webpack_require__("./src/style/main.less");
 ;// CONCATENATED MODULE: ./node_modules/engine.io-parser/build/esm/commons.js
 const PACKET_TYPES = Object.create(null); // no Map = no polyfill
 PACKET_TYPES["open"] = "0";
@@ -4955,156 +4338,415 @@ Object.assign(esm_lookup, {
  */
 
 
+;// CONCATENATED MODULE: ./src/util/waitForElement.ts
+function waitForElement(selector) {
+    return new Promise((resolve) => {
+        if (document.querySelector(selector)) {
+            return resolve(document.querySelector(selector));
+        }
+        const observer = new MutationObserver(() => {
+            if (document.querySelector(selector)) {
+                resolve(document.querySelector(selector));
+                observer.disconnect();
+            }
+        });
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+        });
+    });
+}
 
-/***/ })
+;// CONCATENATED MODULE: ./src/util/waitForElementDeletion.ts
+/**
+ * Waits for the specified element to be removed from the DOM.
+ *
+ * @param {HTMLElement} element - The element to wait for deletion.
+ * @param {HTMLElement} staticElement - The static element to observe for changes.
+ * @return {Promise<void>} A promise that resolves when the element is deleted.
+ */
+function waitForElementDeletion(element, staticElement) {
+    return new Promise((resolve) => {
+        const observer = new MutationObserver((mutationsList, observer) => {
+            for (const mutation of mutationsList) {
+                if (mutation.type === "childList") {
+                    mutation.removedNodes.forEach((node) => {
+                        if (node === element) {
+                            observer.disconnect();
+                            resolve();
+                        }
+                    });
+                }
+            }
+        });
+        observer.observe(staticElement, { childList: true, subtree: true });
+    });
+}
 
-/******/ 	});
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			id: moduleId,
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/async module */
-/******/ 	(() => {
-/******/ 		var webpackQueues = typeof Symbol === "function" ? Symbol("webpack queues") : "__webpack_queues__";
-/******/ 		var webpackExports = typeof Symbol === "function" ? Symbol("webpack exports") : "__webpack_exports__";
-/******/ 		var webpackError = typeof Symbol === "function" ? Symbol("webpack error") : "__webpack_error__";
-/******/ 		var resolveQueue = (queue) => {
-/******/ 			if(queue && queue.d < 1) {
-/******/ 				queue.d = 1;
-/******/ 				queue.forEach((fn) => (fn.r--));
-/******/ 				queue.forEach((fn) => (fn.r-- ? fn.r++ : fn()));
-/******/ 			}
-/******/ 		}
-/******/ 		var wrapDeps = (deps) => (deps.map((dep) => {
-/******/ 			if(dep !== null && typeof dep === "object") {
-/******/ 				if(dep[webpackQueues]) return dep;
-/******/ 				if(dep.then) {
-/******/ 					var queue = [];
-/******/ 					queue.d = 0;
-/******/ 					dep.then((r) => {
-/******/ 						obj[webpackExports] = r;
-/******/ 						resolveQueue(queue);
-/******/ 					}, (e) => {
-/******/ 						obj[webpackError] = e;
-/******/ 						resolveQueue(queue);
-/******/ 					});
-/******/ 					var obj = {};
-/******/ 					obj[webpackQueues] = (fn) => (fn(queue));
-/******/ 					return obj;
-/******/ 				}
-/******/ 			}
-/******/ 			var ret = {};
-/******/ 			ret[webpackQueues] = x => {};
-/******/ 			ret[webpackExports] = dep;
-/******/ 			return ret;
-/******/ 		}));
-/******/ 		__webpack_require__.a = (module, body, hasAwait) => {
-/******/ 			var queue;
-/******/ 			hasAwait && ((queue = []).d = -1);
-/******/ 			var depQueues = new Set();
-/******/ 			var exports = module.exports;
-/******/ 			var currentDeps;
-/******/ 			var outerResolve;
-/******/ 			var reject;
-/******/ 			var promise = new Promise((resolve, rej) => {
-/******/ 				reject = rej;
-/******/ 				outerResolve = resolve;
-/******/ 			});
-/******/ 			promise[webpackExports] = exports;
-/******/ 			promise[webpackQueues] = (fn) => (queue && fn(queue), depQueues.forEach(fn), promise["catch"](x => {}));
-/******/ 			module.exports = promise;
-/******/ 			body((deps) => {
-/******/ 				currentDeps = wrapDeps(deps);
-/******/ 				var fn;
-/******/ 				var getResult = () => (currentDeps.map((d) => {
-/******/ 					if(d[webpackError]) throw d[webpackError];
-/******/ 					return d[webpackExports];
-/******/ 				}))
-/******/ 				var promise = new Promise((resolve) => {
-/******/ 					fn = () => (resolve(getResult));
-/******/ 					fn.r = 0;
-/******/ 					var fnQueue = (q) => (q !== queue && !depQueues.has(q) && (depQueues.add(q), q && !q.d && (fn.r++, q.push(fn))));
-/******/ 					currentDeps.map((dep) => (dep[webpackQueues](fnQueue)));
-/******/ 				});
-/******/ 				return fn.r ? promise : getResult();
-/******/ 			}, (err) => ((err ? reject(promise[webpackError] = err) : outerResolve(exports)), resolveQueue(queue)));
-/******/ 			queue && queue.d < 0 && (queue.d = 0);
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/nonce */
-/******/ 	(() => {
-/******/ 		__webpack_require__.nc = undefined;
-/******/ 	})();
-/******/ 	
-/************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module used 'module' so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.ts");
-/******/ 	
+;// CONCATENATED MODULE: ./src/mediaplayers/mediaplayer.ts
+var Features;
+(function (Features) {
+    Features[Features["Play"] = 0] = "Play";
+    Features[Features["Pause"] = 1] = "Pause";
+    Features[Features["SetTime"] = 2] = "SetTime";
+})(Features || (Features = {}));
+class MediaPlayer {
+    constructor(features) {
+        this.supportedFeatures = features;
+        this.play = () => {
+            console.warn("[Watchparty] 'Play' not yet configured on this player");
+        };
+        this.pause = () => {
+            console.warn("[Watchparty] 'Pause' not yet configured on this player");
+        };
+        this.setTime = () => {
+            console.warn("[Watchparty] 'SetTime' not yet configured on this player");
+        };
+        this.onPlay = () => {
+            console.warn("[Watchparty] 'onPlay' not yet configured on this player");
+        };
+        this.onPause = () => {
+            console.warn("[Watchparty] 'onPause' not yet configured on this player");
+        };
+        this.onSetTime = () => {
+            console.warn("[Watchparty] 'onSetTime' not yet configured on this player");
+        };
+        this.setup();
+    }
+}
+
+;// CONCATENATED MODULE: ./src/mediaplayers/netflixPlayer.ts
+
+
+
+class NetflixPlayer extends MediaPlayer {
+    constructor() {
+        super([Features.Play, Features.Pause]);
+    }
+    async setup() {
+        this.video = (await waitForElement("video"));
+        /**
+         * Player controls
+         */
+        this.play = () => this.video.play();
+        this.pause = () => this.video.pause();
+        this.setTime = () => { };
+        /**
+         * Player events
+         */
+        this.video.addEventListener("play", () => {
+            this.onPlay();
+        });
+        this.video.addEventListener("pause", () => {
+            this.onPause();
+        });
+        this.video.addEventListener("seeked", (event) => {
+            this.onSetTime(event.target.currentTime);
+        });
+        /**
+         * recall setup on deletion
+         */
+        waitForElementDeletion(this.video, this.video.parentElement).then(async () => {
+            console.log("player deleted");
+            this.setup();
+        });
+        console.log("Player rigged");
+    }
+}
+
+;// CONCATENATED MODULE: ./src/mediaplayers/getMediaplayer.ts
+
+//find, wrap and return mediaplayer for current website
+function getMediaPlayer() {
+    const host = window.location.host;
+    switch (host) {
+        case "www.netflix.com":
+            return new NetflixPlayer();
+        default:
+            throw new Error("Could not match any mediaplayer wrapper for current Website");
+    }
+}
+
+;// CONCATENATED MODULE: ./src/socket.ts
+
+
+var SocketEvents;
+(function (SocketEvents) {
+    SocketEvents["connect"] = "connect";
+    SocketEvents["disconnect"] = "disconnect";
+    SocketEvents["joinRoom"] = "joinRoom";
+    SocketEvents["action"] = "action";
+})(SocketEvents || (SocketEvents = {}));
+var SocketStates;
+(function (SocketStates) {
+    SocketStates[SocketStates["connecting"] = 0] = "connecting";
+    SocketStates[SocketStates["connected"] = 1] = "connected";
+    SocketStates[SocketStates["ready"] = 2] = "ready";
+    SocketStates[SocketStates["disconnected"] = 3] = "disconnected";
+})(SocketStates || (SocketStates = {}));
+var SocketActions;
+(function (SocketActions) {
+    SocketActions["play"] = "PLAY";
+    SocketActions["pause"] = "PAUSE";
+    SocketActions["setTime"] = "SET_TIME";
+})(SocketActions || (SocketActions = {}));
+let socket;
+/**
+ * @param name
+ * @param password
+ * @returns Promise with response of request
+ */
+function joinRoom(name, password) {
+    //if socket not created or not connected return rejected promise instead of joining
+    if (!socket?.connected) {
+        console.warn("socket not ready (yet)");
+        return new Promise((resolve, reject) => reject("socket not ready yet"));
+    }
+    console.log("joining " + name);
+    const response = socket.emitWithAck(SocketEvents.joinRoom, {
+        name: name,
+        password: password,
+    });
+    return response;
+}
+function handleRemoteAction(msg, mediaplayer) {
+    switch (msg.action) {
+        case "PLAY":
+            mediaplayer.play();
+            break;
+        case "PAUSE":
+            mediaplayer.pause();
+            break;
+        default:
+            break;
+    }
+}
+const mediaplayer = getMediaPlayer();
+let socketState = SocketStates.disconnected;
+/**
+ * Inits new socket and closes old one
+ * @param url
+ * @param token
+ * @returns
+ */
+async function initSocket(url, token, ui) {
+    return new Promise((resolve) => {
+        //close old socket if exists
+        if (socket)
+            socket.close();
+        socket = esm_lookup(url, {
+            extraHeaders: {
+                authorization: token,
+            },
+        });
+        socket.on(SocketEvents.connect, async () => {
+            ui.setColor("active");
+            console.log("Socket connected as: " + socket.id);
+            socketState = SocketStates.connected;
+            //in case the last action was triggered remotely
+            let ignoreNextAction = false;
+            /**
+             * Mediaplayer listeners
+             */
+            mediaplayer.onPlay = () => {
+                if (ignoreNextAction) {
+                    ignoreNextAction = false;
+                    return;
+                }
+                socket.emit(SocketEvents.action, { action: SocketActions.play });
+            };
+            mediaplayer.onPause = () => {
+                if (ignoreNextAction) {
+                    ignoreNextAction = false;
+                    return;
+                }
+                socket.emit(SocketEvents.action, { action: SocketActions.pause });
+            };
+            mediaplayer.onSetTime = (time) => {
+                if (ignoreNextAction) {
+                    ignoreNextAction = false;
+                    return;
+                }
+                socket.emit(SocketEvents.action, {
+                    action: SocketActions.setTime,
+                    time: time,
+                });
+            };
+            socket.on(SocketEvents.action, (msg) => {
+                ignoreNextAction = true;
+                handleRemoteAction(msg, mediaplayer);
+            });
+            resolve();
+        });
+        socket.on(SocketEvents.disconnect, () => {
+            ui.setColor("inactive");
+            console.log("disconnected Socket");
+            socketState = SocketStates.disconnected;
+        });
+    });
+}
+
+;// CONCATENATED MODULE: ./src/ui.ts
+
+
+
+var GmValues;
+(function (GmValues) {
+    GmValues["url"] = "WP_URL";
+    GmValues["token"] = "WP_TOKEN";
+    GmValues["roomName"] = "WP_ROOM_NAME";
+    GmValues["roomPassword"] = "WP_ROOM_PASSWORD";
+})(GmValues || (GmValues = {}));
+class UI {
+    constructor() {
+        this.htmlElements = this.createOverlay();
+        this.applySavedSettings();
+        /**
+         * Enable or disable submit button based on form validity
+         */
+        this.htmlElements.configForm
+            .querySelectorAll("input")
+            .forEach((element) => {
+            element.oninput = () => {
+                this.updateSubmitActivation();
+            };
+        });
+        /**
+         * only show on mouse movement
+         */
+        let mouseTimer = setTimeout(() => { }, 5000);
+        this.htmlElements.inputToggle.addEventListener("click", (event) => {
+            clearTimeout(mouseTimer);
+            if (this.htmlElements.inputToggle.checked == false) {
+                mouseTimer = setTimeout(() => (this.htmlElements.ui.style.opacity = "0%"), 2e3);
+            }
+        });
+        document.addEventListener("mousemove", () => {
+            this.htmlElements.ui.style.opacity = "100%";
+            clearTimeout(mouseTimer);
+            if (!this.htmlElements.inputToggle.checked) {
+                mouseTimer = setTimeout(() => (this.htmlElements.ui.style.opacity = "0%"), 2e3);
+            }
+        });
+        /**
+         * on submit
+         */
+        this.htmlElements.configForm.onsubmit = (event) => {
+            event.preventDefault();
+            const newUrl = this.htmlElements.inputUrl.value;
+            const newToken = this.htmlElements.inputToken.value;
+            const newRoomName = this.htmlElements.inputRoomName.value;
+            const newRoomPassword = this.htmlElements.inputRoomPassword.value;
+            //create new socket if url or token changed or socket not connected. Join specified room otherwise
+            if (newUrl !== this.url ||
+                newToken !== this.token ||
+                socketState !== SocketStates.connected) {
+                initSocket(newUrl, newToken, this).then(() => {
+                    joinRoom(newRoomName, newRoomPassword).then((msg) => {
+                        this.htmlElements.inputRoomName.value = msg.name;
+                    });
+                });
+            }
+            else {
+                joinRoom(newRoomName, newRoomPassword).then((msg) => {
+                    this.htmlElements.inputRoomName.value = msg.name;
+                });
+            }
+            this.url = newUrl;
+            this.token = newToken;
+            this.roomName = newRoomName;
+            this.roomPassword = newRoomPassword;
+            GM.setValue(GmValues.url, newUrl);
+            GM.setValue(GmValues.token, newToken);
+            GM.setValue(GmValues.roomName, newRoomName);
+            GM.setValue(GmValues.roomPassword, newRoomPassword);
+        };
+    }
+    createOverlay() {
+        // Create a container for the Shadow DOM
+        const shadowHost = document.createElement("div");
+        shadowHost.id = "wp-shadow-host";
+        shadowHost.style.position = "fixed";
+        shadowHost.style.top = "10px";
+        shadowHost.style.right = "10px";
+        shadowHost.style.zIndex = "10000"; // Ensure it's on top
+        shadowHost.style.pointerEvents = "none"; // Allow interaction with underlying elements
+        // Attach a shadow root to the shadow host
+        const shadowRoot = shadowHost.attachShadow({ mode: "open" });
+        // Create the overlay div inside the shadow root
+        const overlay = document.createElement("div");
+        overlay.innerHTML = ui;
+        overlay.style.pointerEvents = "auto"; // Allow interaction with the overlay itself
+        // Create a style element and add the compiled CSS
+        const style = document.createElement("style");
+        style.textContent = main/* default */.Z[0][1];
+        // Append the style and overlay to the shadow root
+        shadowRoot.appendChild(style);
+        shadowRoot.appendChild(overlay);
+        // Append the shadow host to the document body
+        document.body.appendChild(shadowHost);
+        return {
+            ui: shadowRoot.getElementById("wp-ui"),
+            configForm: shadowRoot.getElementById("wp-config-form"),
+            inputToggle: shadowRoot.getElementById("collapsible-toggle"),
+            inputUrl: shadowRoot.getElementById("wp-url-input"),
+            inputToken: shadowRoot.getElementById("wp-token-input"),
+            inputRoomName: shadowRoot.getElementById("wp-room-name-input"),
+            inputRoomPassword: shadowRoot.getElementById("wp-room-password-input"),
+            submitButton: shadowRoot.getElementById("wp-submit-button"),
+        };
+    }
+    async applySavedSettings() {
+        this.url = await GM.getValue(GmValues.url, "");
+        this.token = await GM.getValue(GmValues.token, "");
+        this.roomName = await GM.getValue(GmValues.roomName, "");
+        this.roomPassword = await GM.getValue(GmValues.roomPassword, "");
+        this.htmlElements.inputUrl.value = this.url;
+        this.htmlElements.inputToken.value = this.token;
+        this.htmlElements.inputRoomName.value = this.roomName;
+        this.htmlElements.inputRoomPassword.value = this.roomPassword;
+        this.updateSubmitActivation();
+    }
+    updateSubmitActivation() {
+        if (this.htmlElements.configForm.checkValidity() == false) {
+            this.htmlElements.submitButton.disabled = true;
+        }
+        else
+            this.htmlElements.submitButton.disabled = false;
+    }
+    /**
+     * Set background color based on connection state
+     */
+    setColor(state) {
+        if (state === "active") {
+            this.htmlElements.ui.style.backgroundColor = "#91BD3A";
+        }
+        else {
+            this.htmlElements.ui.style.backgroundColor = "#FA4252";
+        }
+    }
+    /**
+     * used to externally set the room name
+     * @param name room name
+     */
+    setUiRoomName(name) {
+        this.htmlElements.inputRoomName.value = name;
+        GM.setValue(GmValues.roomName, name);
+        this.roomName = name;
+    }
+}
+
+;// CONCATENATED MODULE: ./src/index.ts
+
+async function src_main() {
+    console.log("watchparty starting");
+    const ui = new UI();
+}
+src_main().catch((e) => {
+    console.error(e);
+});
+
+})();
+
 /******/ })()
 ;
