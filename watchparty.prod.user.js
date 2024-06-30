@@ -4,7 +4,7 @@
 // @namespace     https://github.com/Syntoxr
 // @downloadURL   https://github.com/Syntoxr/watchparty-userscript/raw/gh-pages/watchparty.prod.user.js
 // @supportURL    https://github.com/Syntoxr/watchparty-userscript
-// @version       0.0.3
+// @version       0.1.0
 // @author        Syntoxr
 // @source        https://github.com/Syntoxr/watchparty-userscript
 // @match         https://www.netflix.com/*
@@ -4335,6 +4335,374 @@ Object.assign(esm_lookup, {
  */
 
 
+;// CONCATENATED MODULE: ./src/socket.ts
+
+var SocketEvents;
+(function (SocketEvents) {
+    SocketEvents["connect"] = "connect";
+    SocketEvents["disconnect"] = "disconnect";
+    SocketEvents["joinRoom"] = "joinRoom";
+    SocketEvents["action"] = "action";
+})(SocketEvents || (SocketEvents = {}));
+var SocketStates;
+(function (SocketStates) {
+    SocketStates[SocketStates["connecting"] = 0] = "connecting";
+    SocketStates[SocketStates["connected"] = 1] = "connected";
+    SocketStates[SocketStates["ready"] = 2] = "ready";
+    SocketStates[SocketStates["disconnected"] = 3] = "disconnected";
+})(SocketStates || (SocketStates = {}));
+var SocketActions;
+(function (SocketActions) {
+    SocketActions["play"] = "PLAY";
+    SocketActions["pause"] = "PAUSE";
+    SocketActions["setTime"] = "SET_TIME";
+})(SocketActions || (SocketActions = {}));
+class WPSocket {
+    constructor(mediaplayer) {
+        this.mediaplayer = mediaplayer;
+        this.state = SocketStates.disconnected;
+    }
+    /**
+     * @param name
+     * @param password
+     * @returns Promise with response of request
+     */
+    joinRoom(name, password) {
+        //if socket not created or not connected return rejected promise instead of joining
+        if (!this.socket?.connected) {
+            console.warn("socket not ready (yet)");
+            return new Promise((resolve, reject) => reject("socket not ready yet"));
+        }
+        console.log("joining " + name);
+        const response = this.socket.emitWithAck(SocketEvents.joinRoom, {
+            name: name,
+            password: password,
+        });
+        return response;
+    }
+    handleRemoteAction(msg) {
+        switch (msg.action) {
+            case "PLAY":
+                this.mediaplayer.play();
+                break;
+            case "PAUSE":
+                this.mediaplayer.pause();
+                break;
+            default:
+                break;
+        }
+    }
+    /**
+     * Inits new socket and closes old one
+     * @param url
+     * @param token
+     * @returns
+     */
+    async initSocket(url, token, ui) {
+        return new Promise((resolve) => {
+            //close old socket if exists
+            if (this.socket)
+                this.socket.close();
+            this.socket = esm_lookup(url, {
+                extraHeaders: {
+                    authorization: token,
+                },
+            });
+            this.socket.on(SocketEvents.connect, async () => {
+                ui.setColor("active");
+                console.log("Socket connected as: " + this.socket.id);
+                this.state = SocketStates.connected;
+                //in case the last action was triggered remotely
+                let ignoreNextAction = false;
+                /**
+                 * Mediaplayer listeners
+                 */
+                this.mediaplayer.onPlay = () => {
+                    if (ignoreNextAction) {
+                        ignoreNextAction = false;
+                        return;
+                    }
+                    this.socket.emit(SocketEvents.action, { action: SocketActions.play });
+                };
+                this.mediaplayer.onPause = () => {
+                    if (ignoreNextAction) {
+                        ignoreNextAction = false;
+                        return;
+                    }
+                    this.socket.emit(SocketEvents.action, {
+                        action: SocketActions.pause,
+                    });
+                };
+                this.mediaplayer.onSetTime = (time) => {
+                    if (ignoreNextAction) {
+                        ignoreNextAction = false;
+                        return;
+                    }
+                    this.socket.emit(SocketEvents.action, {
+                        action: SocketActions.setTime,
+                        time: time,
+                    });
+                };
+                this.socket.on(SocketEvents.action, (msg) => {
+                    ignoreNextAction = true;
+                    this.handleRemoteAction(msg);
+                });
+                resolve();
+            });
+            this.socket.on(SocketEvents.disconnect, () => {
+                ui.setColor("inactive");
+                console.log("disconnected Socket");
+                this.state = SocketStates.disconnected;
+            });
+        });
+    }
+}
+
+;// CONCATENATED MODULE: ./src/util/makeDraggable.ts
+/**
+ * Makes an HTML element draggable and dispatches a custom event when dragging ends.
+ *
+ * @param {HTMLElement} element - The element to make draggable.
+ * @return {void}
+ */
+function makeDraggable(element) {
+    let isDragging = false; // Indicates whether the element is being dragged
+    let initialRight; // Initial right position of the element
+    let initialTop; // Initial top position of the element
+    let startX; // Initial X position of the mouse
+    let startY; // Initial Y position of the mouse
+    // Function to dispatch custom event when dragging ends
+    function dispatchDragEndEvent(right, top) {
+        const event = new CustomEvent("dragend", {
+            detail: {
+                right,
+                top,
+            },
+        });
+        element.dispatchEvent(event);
+    }
+    element.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        initialRight = parseFloat(window.getComputedStyle(element).right); // Get initial right position
+        initialTop = parseFloat(window.getComputedStyle(element).top); // Get initial top position
+        startX = e.clientX; // Get initial X position of the mouse
+        startY = e.clientY; // Get initial Y position of the mouse
+        document.addEventListener("mousemove", onMouseMove);
+        document.addEventListener("mouseup", onMouseUp);
+    });
+    function onMouseMove(e) {
+        if (isDragging) {
+            const deltaX = e.clientX - startX; // Calculate X difference
+            const deltaY = e.clientY - startY; // Calculate Y difference
+            element.style.right = `${initialRight - deltaX}px`; // Update right position
+            element.style.top = `${initialTop + deltaY}px`; // Update top position
+        }
+    }
+    function onMouseUp() {
+        if (isDragging) {
+            isDragging = false;
+            document.removeEventListener("mousemove", onMouseMove);
+            document.removeEventListener("mouseup", onMouseUp);
+            const currentRight = parseFloat(window.getComputedStyle(element).right); // Get current right position
+            const currentTop = parseFloat(window.getComputedStyle(element).top); // Get current top position
+            dispatchDragEndEvent(currentRight, currentTop); // Dispatch custom 'dragend' event with current coordinates
+        }
+    }
+}
+
+;// CONCATENATED MODULE: ./src/util/sites.ts
+var Sites;
+(function (Sites) {
+    Sites["netflix"] = "netflix";
+})(Sites || (Sites = {}));
+function getCurrentSite() {
+    const host = window.location.host;
+    if (host.includes("netflix")) {
+        return Sites.netflix;
+    }
+}
+
+;// CONCATENATED MODULE: ./src/ui.ts
+
+
+
+
+
+var GmValues;
+(function (GmValues) {
+    GmValues["url"] = "WP_URL";
+    GmValues["token"] = "WP_TOKEN";
+    GmValues["roomName"] = "WP_ROOM_NAME";
+    GmValues["roomPassword"] = "WP_ROOM_PASSWORD";
+    GmValues["uiPositions"] = "WP_UI_POSITIONS";
+})(GmValues || (GmValues = {}));
+class UI {
+    constructor(wpSocket) {
+        this.wpSocket = wpSocket;
+        this.htmlElements = this.createOverlay();
+        this.applySavedSettings();
+        /**
+         * Enable or disable submit button based on form validity
+         */
+        this.htmlElements.configForm
+            .querySelectorAll("input")
+            .forEach((element) => {
+            element.oninput = () => {
+                this.updateSubmitActivation();
+            };
+        });
+        /**
+         * only show on mouse movement
+         */
+        let mouseTimer = setTimeout(() => { }, 5000);
+        this.htmlElements.inputToggle.addEventListener("click", (event) => {
+            clearTimeout(mouseTimer);
+            if (this.htmlElements.inputToggle.checked == false) {
+                mouseTimer = setTimeout(() => (this.htmlElements.ui.style.opacity = "0%"), 2e3);
+            }
+        });
+        document.addEventListener("mousemove", () => {
+            this.htmlElements.ui.style.opacity = "100%";
+            clearTimeout(mouseTimer);
+            if (!this.htmlElements.inputToggle.checked) {
+                mouseTimer = setTimeout(() => (this.htmlElements.ui.style.opacity = "0%"), 2e3);
+            }
+        });
+        /**
+         * on submit
+         */
+        this.htmlElements.configForm.onsubmit = (event) => {
+            event.preventDefault();
+            const newUrl = this.htmlElements.inputUrl.value;
+            const newToken = this.htmlElements.inputToken.value;
+            const newRoomName = this.htmlElements.inputRoomName.value;
+            const newRoomPassword = this.htmlElements.inputRoomPassword.value;
+            //create new socket if url or token changed or socket not connected. Join specified room otherwise
+            if (newUrl !== this.url ||
+                newToken !== this.token ||
+                this.wpSocket.state !== SocketStates.connected) {
+                this.wpSocket.initSocket(newUrl, newToken, this).then(() => {
+                    this.wpSocket.joinRoom(newRoomName, newRoomPassword).then((msg) => {
+                        this.htmlElements.inputRoomName.value = msg.name;
+                    });
+                });
+            }
+            else {
+                this.wpSocket.joinRoom(newRoomName, newRoomPassword).then((msg) => {
+                    this.htmlElements.inputRoomName.value = msg.name;
+                });
+            }
+            this.url = newUrl;
+            this.token = newToken;
+            this.roomName = newRoomName;
+            this.roomPassword = newRoomPassword;
+            GM.setValue(GmValues.url, newUrl);
+            GM.setValue(GmValues.token, newToken);
+            GM.setValue(GmValues.roomName, newRoomName);
+            GM.setValue(GmValues.roomPassword, newRoomPassword);
+        };
+    }
+    createOverlay() {
+        // Create a container for the Shadow DOM
+        const shadowHost = document.createElement("div");
+        shadowHost.id = "wp-shadow-host";
+        shadowHost.style.position = "fixed";
+        shadowHost.style.top = "10px";
+        shadowHost.style.right = "10px";
+        shadowHost.style.zIndex = "10000"; // Ensure it's on top
+        shadowHost.style.pointerEvents = "none"; // Allow interaction with underlying elements
+        // Get and apply the current UI position from GM
+        GM.getValue(GmValues.uiPositions, "{}").then((positionsValue) => {
+            const position = JSON.parse(positionsValue)[getCurrentSite().toString()]; // Parse the positions
+            if (position) {
+                if (window.innerWidth - position.right < 40)
+                    position.right = 10; // Check if the right position is out of bounds
+                if (window.innerHeight - position.top < 40)
+                    position.top = 10; // Check if the top position is out of bounds
+                shadowHost.style.top = `${position.top}px`; // Set the top position
+                shadowHost.style.right = `${position.right}px`; // Set the right position
+            }
+            else {
+                shadowHost.style.top = `10px`; // Set the top position
+                shadowHost.style.right = `10px`; // Set the right position
+            }
+        });
+        // Attach a shadow root to the shadow host
+        const shadowRoot = shadowHost.attachShadow({ mode: "open" });
+        // Create the overlay div inside the shadow root
+        const overlay = document.createElement("div");
+        overlay.innerHTML = ui;
+        overlay.style.pointerEvents = "auto"; // Allow interaction with the overlay itself
+        // Create a style element and add the compiled CSS
+        const style = document.createElement("style");
+        style.textContent = main/* default */.Z[0][1];
+        // Append the style and overlay to the shadow root
+        shadowRoot.appendChild(style);
+        shadowRoot.appendChild(overlay);
+        makeDraggable(shadowHost);
+        // Handle the dragend event, saving the new UI position
+        shadowHost.addEventListener("dragend", (e) => {
+            const newPosition = e.detail; // Get the new position from the event
+            GM.getValue(GmValues.uiPositions, "{}") // Get the current UI positions from GM
+                .then((positionsValue) => {
+                const positions = JSON.parse(positionsValue); // Parse the positions
+                positions[getCurrentSite().toString()] = newPosition; // Update the position for the current site
+                GM.setValue(GmValues.uiPositions, JSON.stringify(positions)); // Save the updated positions to GM
+            });
+        });
+        // Append the shadow host to the document body
+        document.body.appendChild(shadowHost);
+        return {
+            ui: shadowRoot.getElementById("wp-ui"),
+            configForm: shadowRoot.getElementById("wp-config-form"),
+            inputToggle: shadowRoot.getElementById("collapsible-toggle"),
+            inputUrl: shadowRoot.getElementById("wp-url-input"),
+            inputToken: shadowRoot.getElementById("wp-token-input"),
+            inputRoomName: shadowRoot.getElementById("wp-room-name-input"),
+            inputRoomPassword: shadowRoot.getElementById("wp-room-password-input"),
+            submitButton: shadowRoot.getElementById("wp-submit-button"),
+        };
+    }
+    async applySavedSettings() {
+        this.url = await GM.getValue(GmValues.url, "");
+        this.token = await GM.getValue(GmValues.token, "");
+        this.roomName = await GM.getValue(GmValues.roomName, "");
+        this.roomPassword = await GM.getValue(GmValues.roomPassword, "");
+        this.htmlElements.inputUrl.value = this.url;
+        this.htmlElements.inputToken.value = this.token;
+        this.htmlElements.inputRoomName.value = this.roomName;
+        this.htmlElements.inputRoomPassword.value = this.roomPassword;
+        this.updateSubmitActivation();
+    }
+    updateSubmitActivation() {
+        if (this.htmlElements.configForm.checkValidity() == false) {
+            this.htmlElements.submitButton.disabled = true;
+        }
+        else
+            this.htmlElements.submitButton.disabled = false;
+    }
+    /**
+     * Set background color based on connection state
+     */
+    setColor(state) {
+        if (state === "active") {
+            this.htmlElements.ui.style.backgroundColor = "#91BD3A";
+        }
+        else {
+            this.htmlElements.ui.style.backgroundColor = "#FA4252";
+        }
+    }
+    /**
+     * used to externally set the room name
+     * @param name room name
+     */
+    setUiRoomName(name) {
+        this.htmlElements.inputRoomName.value = name;
+        GM.setValue(GmValues.roomName, name);
+        this.roomName = name;
+    }
+}
+
 ;// CONCATENATED MODULE: ./src/util/waitForElement.ts
 function waitForElement(selector) {
     return new Promise((resolve) => {
@@ -4471,291 +4839,27 @@ class NetflixPlayer extends MediaPlayer {
 
 ;// CONCATENATED MODULE: ./src/mediaplayers/getMediaplayer.ts
 
+
 //find, wrap and return mediaplayer for current website
 function getMediaPlayer() {
-    const host = window.location.host;
-    switch (host) {
-        case "www.netflix.com":
-            return new NetflixPlayer();
-        default:
-            throw new Error("Could not match any mediaplayer wrapper for current Website");
+    const site = getCurrentSite();
+    if (site === Sites.netflix) {
+        return new NetflixPlayer();
     }
-}
-
-;// CONCATENATED MODULE: ./src/socket.ts
-
-
-var SocketEvents;
-(function (SocketEvents) {
-    SocketEvents["connect"] = "connect";
-    SocketEvents["disconnect"] = "disconnect";
-    SocketEvents["joinRoom"] = "joinRoom";
-    SocketEvents["action"] = "action";
-})(SocketEvents || (SocketEvents = {}));
-var SocketStates;
-(function (SocketStates) {
-    SocketStates[SocketStates["connecting"] = 0] = "connecting";
-    SocketStates[SocketStates["connected"] = 1] = "connected";
-    SocketStates[SocketStates["ready"] = 2] = "ready";
-    SocketStates[SocketStates["disconnected"] = 3] = "disconnected";
-})(SocketStates || (SocketStates = {}));
-var SocketActions;
-(function (SocketActions) {
-    SocketActions["play"] = "PLAY";
-    SocketActions["pause"] = "PAUSE";
-    SocketActions["setTime"] = "SET_TIME";
-})(SocketActions || (SocketActions = {}));
-let socket;
-/**
- * @param name
- * @param password
- * @returns Promise with response of request
- */
-function joinRoom(name, password) {
-    //if socket not created or not connected return rejected promise instead of joining
-    if (!socket?.connected) {
-        console.warn("socket not ready (yet)");
-        return new Promise((resolve, reject) => reject("socket not ready yet"));
-    }
-    console.log("joining " + name);
-    const response = socket.emitWithAck(SocketEvents.joinRoom, {
-        name: name,
-        password: password,
-    });
-    return response;
-}
-function handleRemoteAction(msg, mediaplayer) {
-    switch (msg.action) {
-        case "PLAY":
-            mediaplayer.play();
-            break;
-        case "PAUSE":
-            mediaplayer.pause();
-            break;
-        default:
-            break;
-    }
-}
-const mediaplayer = getMediaPlayer();
-let socketState = SocketStates.disconnected;
-/**
- * Inits new socket and closes old one
- * @param url
- * @param token
- * @returns
- */
-async function initSocket(url, token, ui) {
-    return new Promise((resolve) => {
-        //close old socket if exists
-        if (socket)
-            socket.close();
-        socket = esm_lookup(url, {
-            extraHeaders: {
-                authorization: token,
-            },
-        });
-        socket.on(SocketEvents.connect, async () => {
-            ui.setColor("active");
-            console.log("Socket connected as: " + socket.id);
-            socketState = SocketStates.connected;
-            //in case the last action was triggered remotely
-            let ignoreNextAction = false;
-            /**
-             * Mediaplayer listeners
-             */
-            mediaplayer.onPlay = () => {
-                if (ignoreNextAction) {
-                    ignoreNextAction = false;
-                    return;
-                }
-                socket.emit(SocketEvents.action, { action: SocketActions.play });
-            };
-            mediaplayer.onPause = () => {
-                if (ignoreNextAction) {
-                    ignoreNextAction = false;
-                    return;
-                }
-                socket.emit(SocketEvents.action, { action: SocketActions.pause });
-            };
-            mediaplayer.onSetTime = (time) => {
-                if (ignoreNextAction) {
-                    ignoreNextAction = false;
-                    return;
-                }
-                socket.emit(SocketEvents.action, {
-                    action: SocketActions.setTime,
-                    time: time,
-                });
-            };
-            socket.on(SocketEvents.action, (msg) => {
-                ignoreNextAction = true;
-                handleRemoteAction(msg, mediaplayer);
-            });
-            resolve();
-        });
-        socket.on(SocketEvents.disconnect, () => {
-            ui.setColor("inactive");
-            console.log("disconnected Socket");
-            socketState = SocketStates.disconnected;
-        });
-    });
-}
-
-;// CONCATENATED MODULE: ./src/ui.ts
-
-
-
-var GmValues;
-(function (GmValues) {
-    GmValues["url"] = "WP_URL";
-    GmValues["token"] = "WP_TOKEN";
-    GmValues["roomName"] = "WP_ROOM_NAME";
-    GmValues["roomPassword"] = "WP_ROOM_PASSWORD";
-})(GmValues || (GmValues = {}));
-class UI {
-    constructor() {
-        this.htmlElements = this.createOverlay();
-        this.applySavedSettings();
-        /**
-         * Enable or disable submit button based on form validity
-         */
-        this.htmlElements.configForm
-            .querySelectorAll("input")
-            .forEach((element) => {
-            element.oninput = () => {
-                this.updateSubmitActivation();
-            };
-        });
-        /**
-         * only show on mouse movement
-         */
-        let mouseTimer = setTimeout(() => { }, 5000);
-        this.htmlElements.inputToggle.addEventListener("click", (event) => {
-            clearTimeout(mouseTimer);
-            if (this.htmlElements.inputToggle.checked == false) {
-                mouseTimer = setTimeout(() => (this.htmlElements.ui.style.opacity = "0%"), 2e3);
-            }
-        });
-        document.addEventListener("mousemove", () => {
-            this.htmlElements.ui.style.opacity = "100%";
-            clearTimeout(mouseTimer);
-            if (!this.htmlElements.inputToggle.checked) {
-                mouseTimer = setTimeout(() => (this.htmlElements.ui.style.opacity = "0%"), 2e3);
-            }
-        });
-        /**
-         * on submit
-         */
-        this.htmlElements.configForm.onsubmit = (event) => {
-            event.preventDefault();
-            const newUrl = this.htmlElements.inputUrl.value;
-            const newToken = this.htmlElements.inputToken.value;
-            const newRoomName = this.htmlElements.inputRoomName.value;
-            const newRoomPassword = this.htmlElements.inputRoomPassword.value;
-            //create new socket if url or token changed or socket not connected. Join specified room otherwise
-            if (newUrl !== this.url ||
-                newToken !== this.token ||
-                socketState !== SocketStates.connected) {
-                initSocket(newUrl, newToken, this).then(() => {
-                    joinRoom(newRoomName, newRoomPassword).then((msg) => {
-                        this.htmlElements.inputRoomName.value = msg.name;
-                    });
-                });
-            }
-            else {
-                joinRoom(newRoomName, newRoomPassword).then((msg) => {
-                    this.htmlElements.inputRoomName.value = msg.name;
-                });
-            }
-            this.url = newUrl;
-            this.token = newToken;
-            this.roomName = newRoomName;
-            this.roomPassword = newRoomPassword;
-            GM.setValue(GmValues.url, newUrl);
-            GM.setValue(GmValues.token, newToken);
-            GM.setValue(GmValues.roomName, newRoomName);
-            GM.setValue(GmValues.roomPassword, newRoomPassword);
-        };
-    }
-    createOverlay() {
-        // Create a container for the Shadow DOM
-        const shadowHost = document.createElement("div");
-        shadowHost.id = "wp-shadow-host";
-        shadowHost.style.position = "fixed";
-        shadowHost.style.top = "10px";
-        shadowHost.style.right = "10px";
-        shadowHost.style.zIndex = "10000"; // Ensure it's on top
-        shadowHost.style.pointerEvents = "none"; // Allow interaction with underlying elements
-        // Attach a shadow root to the shadow host
-        const shadowRoot = shadowHost.attachShadow({ mode: "open" });
-        // Create the overlay div inside the shadow root
-        const overlay = document.createElement("div");
-        overlay.innerHTML = ui;
-        overlay.style.pointerEvents = "auto"; // Allow interaction with the overlay itself
-        // Create a style element and add the compiled CSS
-        const style = document.createElement("style");
-        style.textContent = main/* default */.Z[0][1];
-        // Append the style and overlay to the shadow root
-        shadowRoot.appendChild(style);
-        shadowRoot.appendChild(overlay);
-        // Append the shadow host to the document body
-        document.body.appendChild(shadowHost);
-        return {
-            ui: shadowRoot.getElementById("wp-ui"),
-            configForm: shadowRoot.getElementById("wp-config-form"),
-            inputToggle: shadowRoot.getElementById("collapsible-toggle"),
-            inputUrl: shadowRoot.getElementById("wp-url-input"),
-            inputToken: shadowRoot.getElementById("wp-token-input"),
-            inputRoomName: shadowRoot.getElementById("wp-room-name-input"),
-            inputRoomPassword: shadowRoot.getElementById("wp-room-password-input"),
-            submitButton: shadowRoot.getElementById("wp-submit-button"),
-        };
-    }
-    async applySavedSettings() {
-        this.url = await GM.getValue(GmValues.url, "");
-        this.token = await GM.getValue(GmValues.token, "");
-        this.roomName = await GM.getValue(GmValues.roomName, "");
-        this.roomPassword = await GM.getValue(GmValues.roomPassword, "");
-        this.htmlElements.inputUrl.value = this.url;
-        this.htmlElements.inputToken.value = this.token;
-        this.htmlElements.inputRoomName.value = this.roomName;
-        this.htmlElements.inputRoomPassword.value = this.roomPassword;
-        this.updateSubmitActivation();
-    }
-    updateSubmitActivation() {
-        if (this.htmlElements.configForm.checkValidity() == false) {
-            this.htmlElements.submitButton.disabled = true;
-        }
-        else
-            this.htmlElements.submitButton.disabled = false;
-    }
-    /**
-     * Set background color based on connection state
-     */
-    setColor(state) {
-        if (state === "active") {
-            this.htmlElements.ui.style.backgroundColor = "#91BD3A";
-        }
-        else {
-            this.htmlElements.ui.style.backgroundColor = "#FA4252";
-        }
-    }
-    /**
-     * used to externally set the room name
-     * @param name room name
-     */
-    setUiRoomName(name) {
-        this.htmlElements.inputRoomName.value = name;
-        GM.setValue(GmValues.roomName, name);
-        this.roomName = name;
+    else {
+        throw new Error("Could not match any mediaplayer wrapper for current Website");
     }
 }
 
 ;// CONCATENATED MODULE: ./src/index.ts
 
+
+
 async function src_main() {
     console.log("watchparty starting");
-    const ui = new UI();
+    const mediaplayer = getMediaPlayer();
+    const wpSocket = new WPSocket(mediaplayer);
+    const ui = new UI(wpSocket);
 }
 src_main().catch((e) => {
     console.error(e);
