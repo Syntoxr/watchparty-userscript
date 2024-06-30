@@ -1,12 +1,24 @@
 import uiHtml from "./html/ui.html";
 import styles from "./style/main.less";
 import { WPSocket, SocketStates } from "./socket";
+import { makeDraggable } from "./util/makeDraggable";
+import { getCurrentSite } from "./util/sites";
 
 enum GmValues {
   url = "WP_URL",
   token = "WP_TOKEN",
   roomName = "WP_ROOM_NAME",
   roomPassword = "WP_ROOM_PASSWORD",
+  uiPositions = "WP_UI_POSITIONS",
+}
+
+interface UiPosition {
+  top: number;
+  right: number;
+}
+
+interface SiteBasedUiPositions {
+  [key: string]: UiPosition;
 }
 
 interface HtmlElements {
@@ -118,6 +130,23 @@ export class UI {
     shadowHost.style.zIndex = "10000"; // Ensure it's on top
     shadowHost.style.pointerEvents = "none"; // Allow interaction with underlying elements
 
+    // Get and apply the current UI position from GM
+    GM.getValue(GmValues.uiPositions, "{}").then((positionsValue: string) => {
+      const position = JSON.parse(positionsValue)[
+        getCurrentSite().toString()
+      ] as UiPosition; // Parse the positions
+      if (position) {
+        if (window.innerWidth - position.right < 40) position.right = 10; // Check if the right position is out of bounds
+        if (window.innerHeight - position.top < 40) position.top = 10; // Check if the top position is out of bounds
+
+        shadowHost.style.top = `${position.top}px`; // Set the top position
+        shadowHost.style.right = `${position.right}px`; // Set the right position
+      } else {
+        shadowHost.style.top = `10px`; // Set the top position
+        shadowHost.style.right = `10px`; // Set the right position
+      }
+    });
+
     // Attach a shadow root to the shadow host
     const shadowRoot = shadowHost.attachShadow({ mode: "open" });
 
@@ -133,6 +162,19 @@ export class UI {
     // Append the style and overlay to the shadow root
     shadowRoot.appendChild(style);
     shadowRoot.appendChild(overlay);
+
+    makeDraggable(shadowHost);
+
+    // Handle the dragend event, saving the new UI position
+    shadowHost.addEventListener("dragend", (e: CustomEvent) => {
+      const newPosition: UiPosition = e.detail as UiPosition; // Get the new position from the event
+      GM.getValue(GmValues.uiPositions, "{}") // Get the current UI positions from GM
+        .then((positionsValue: string) => {
+          const positions = JSON.parse(positionsValue) as SiteBasedUiPositions; // Parse the positions
+          positions[getCurrentSite().toString()] = newPosition; // Update the position for the current site
+          GM.setValue(GmValues.uiPositions, JSON.stringify(positions)); // Save the updated positions to GM
+        });
+    });
 
     // Append the shadow host to the document body
     document.body.appendChild(shadowHost);
