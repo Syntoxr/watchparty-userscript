@@ -34,10 +34,34 @@ export function makeDraggable(element: HTMLElement) {
 
   function onMouseMove(e: MouseEvent) {
     if (isDragging) {
-      const deltaX = e.clientX - startX; // Calculate X difference
-      const deltaY = e.clientY - startY; // Calculate Y difference
-      element.style.right = `${initialRight - deltaX}px`; // Update right position
-      element.style.top = `${initialTop + deltaY}px`; // Update top position
+      const deltaX = e.clientX - startX;
+      const deltaY = e.clientY - startY;
+
+      // Calculate new positions
+      let newRight = initialRight - deltaX;
+      let newTop = initialTop + deltaY;
+
+      // Ensure element stays within viewport boundaries
+      const elementWidth = element.offsetWidth;
+      const elementHeight = element.offsetHeight;
+      if (newRight < 0) {
+        newRight = 0;
+      } else if (
+        newRight + elementWidth >
+        document.documentElement.clientWidth
+      ) {
+        newRight = document.documentElement.clientWidth - elementWidth;
+      }
+
+      if (newTop < 0) {
+        newTop = 0;
+      } else if (newTop + elementHeight > window.innerHeight) {
+        newTop = window.innerHeight - elementHeight;
+      }
+
+      // Update element position
+      element.style.right = `${newRight}px`;
+      element.style.top = `${newTop}px`;
     }
   }
 

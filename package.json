@@ -1,7 +1,7 @@
 {
   "name": "webpack-userscript-template",
   "description": "Build your UserScript with webpack",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Syntoxr"
   },
