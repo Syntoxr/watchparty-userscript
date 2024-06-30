@@ -1,6 +1,6 @@
 import uiHtml from "./html/ui.html";
 import styles from "./style/main.less";
-import { initSocket, socketState, SocketStates, joinRoom } from "./socket";
+import { WPSocket, SocketStates } from "./socket";
 
 enum GmValues {
   url = "WP_URL",
@@ -26,7 +26,9 @@ export class UI {
   token: string;
   roomName: string;
   roomPassword: string;
-  constructor() {
+  wpSocket: WPSocket;
+  constructor(wpSocket: WPSocket) {
+    this.wpSocket = wpSocket;
     this.htmlElements = this.createOverlay();
 
     this.applySavedSettings();
@@ -81,15 +83,15 @@ export class UI {
       if (
         newUrl !== this.url ||
         newToken !== this.token ||
-        socketState !== SocketStates.connected
+        this.wpSocket.state !== SocketStates.connected
       ) {
-        initSocket(newUrl, newToken, this).then(() => {
-          joinRoom(newRoomName, newRoomPassword).then((msg) => {
+        this.wpSocket.initSocket(newUrl, newToken, this).then(() => {
+          this.wpSocket.joinRoom(newRoomName, newRoomPassword).then((msg) => {
             this.htmlElements.inputRoomName.value = msg.name;
           });
         });
       } else {
-        joinRoom(newRoomName, newRoomPassword).then((msg) => {
+        this.wpSocket.joinRoom(newRoomName, newRoomPassword).then((msg) => {
           this.htmlElements.inputRoomName.value = msg.name;
         });
       }
